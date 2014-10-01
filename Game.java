@@ -34,6 +34,12 @@ public class Game
      */
     private void createRooms()
     {
+        //Initalize items and settings by JG
+        Items book = new Items("book");
+        book.setWeight(25); // out of 100
+        Command read = new Command("read", "book");
+        book.setPermissions(read);
+        
         //initializations by Adam Shaw
         Room masterBedroom,
         study,
@@ -58,9 +64,10 @@ public class Game
         kitchen = new Room("in the kitchen");
         drawingRoom = new Room("in the drawing room");
 
-        // initialise room exits
+        // initialise room exits and items in room
         masterBedroom.setExit("east", study);
-
+        masterBedroom.setItems(book);
+        
         study.setExit("west", masterBedroom);
         study.setExit("south", library);        
         study.setExit("east", livingRoom);
@@ -100,8 +107,7 @@ public class Game
         printWelcome();
 
         // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
-
+        // execute them until the game is over
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -139,7 +145,6 @@ public class Game
             System.out.println("I don't know what you mean...");
             return false;
         }
-
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
             printHelp();
@@ -163,8 +168,10 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("You are lost. You are scared. You wander");
+        System.out.println("around the haunted mansion.");
+        System.out.println();
+        System.out.println("You are not alones.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();

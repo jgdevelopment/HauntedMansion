@@ -9,6 +9,7 @@ public class Items
 {
     // instance variables - replace the example below with your own
     private String description;
+    private int weight;
     private ArrayList<String> permissions;
     /**
      * Constructor for objects of class Items
@@ -18,9 +19,19 @@ public class Items
         // initialise instance variables
         this.description = description;
     }
-    public void setPermissions(String permission)
+    public void setPermissions(Command command)
     {
         // initialise instance variables
-        this.permissions.add(permission);
+        String commandWord = command.getCommandWord();
+        this.permissions.add(commandWord);
+    }
+    public void setWeight(int weightInput){
+        this.weight = weight;
+    }
+    public ArrayList<String> getPermission(){
+        return this.permissions;
+    }
+    public int getWeight(){
+        return this.weight;
     }
 }
