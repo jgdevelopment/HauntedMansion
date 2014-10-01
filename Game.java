@@ -11,6 +11,10 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
+ * Adam wrote the initializer and began work on the win condition.
+ * Jason began to write the Item Class
+ *
+ * 
  * @author  Adam Shaw and Jason Ginsberg
  * @version 2014.10.1
  */
@@ -19,6 +23,19 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+
+    Room masterBedroom,
+    study,
+    livingRoom,
+    entranceHall, 
+    outside,
+    library, 
+    diningRoom,
+    wineCellar, 
+    dungeon,
+    kitchen,
+    drawingRoom;
+            //initializations by Adam Shaw
 
     /**
      * Create the game and initialise its internal map.
@@ -34,26 +51,17 @@ public class Game
      */
     private void createRooms()
     {
-        //initializations by Adam Shaw
-        Room masterBedroom,
-        study,
-        livingRoom,
-        entranceHall, 
-        library, 
-        diningRoom,
-        wineCellar, 
-        dungeon,
-        kitchen, 
-        drawingRoom;
+
 
         // create the rooms
         masterBedroom = new Room("in the master bedroom");
         study = new Room("in the study");
-        livingRoom  = new Room("in the living room");
-        entranceHall  = new Room("in the entrace hall of the Mansion");
+        livingRoom = new Room("in the living room");
+        entranceHall = new Room("in the entrace hall of the Mansion");
+        outside  = new Room("outside of the Mansion! You win!");
         library = new Room("in the library");
-        diningRoom  = new Room("in the dining room");
-        wineCellar  = new Room("in the wine cellar");
+        diningRoom = new Room("in the dining room");
+        wineCellar = new Room("in the wine cellar");
         dungeon = new Room("in the mansion's dungeon");
         kitchen = new Room("in the kitchen");
         drawingRoom = new Room("in the drawing room");
@@ -70,6 +78,9 @@ public class Game
         livingRoom.setExit("east", entranceHall);
 
         entranceHall.setExit("west", livingRoom);
+        entranceHall.setExit("north", outside);
+
+        outside.setExit("south", entranceHall);
 
         library.setExit("north", study);
         library.setExit("east", diningRoom);
@@ -190,6 +201,10 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+            if (currentRoom==outside)
+            {
+                winCondition();
+            }
         }
     }
 
@@ -207,5 +222,10 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+
+    private void winCondition()
+    {
+        System.out.println("You win!");
     }
 }
