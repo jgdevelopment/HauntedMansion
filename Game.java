@@ -116,11 +116,14 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the Escape the Mansion!");
-        System.out.println("Escape the Mansion is a new, incredibly not boring adventure game.");
+        System.out.println("Welcome to the Haunted Mansion!");
+        System.out.println("You wake up with a headache and a sharp pain in your arm. The floor is cold and damp.");
+        System.out.println("You stand up but when you try to walk you suddenly trip and realize you're shackled to the floor");
+        System.out.println("You're stuck in a dungeon. The room is dark. Try to escape.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
+
     }
 
     /**
