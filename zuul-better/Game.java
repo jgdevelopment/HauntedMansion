@@ -11,32 +11,15 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * Adam wrote the initializer and began work on the win condition.
- * Jason began to write the Item Class
- *
- * 
- * @author  Adam Shaw and Jason Ginsberg
- * @version 2014.10.1
+ * @author  Michael Kolling and David J. Barnes
+ * @version 2006.03.30
  */
 
 public class Game 
 {
     private Parser parser;
     private Room currentRoom;
-
-    Room masterBedroom,
-    study,
-    livingRoom,
-    entranceHall, 
-    outside,
-    library, 
-    diningRoom,
-    wineCellar, 
-    dungeon,
-    kitchen,
-    drawingRoom;
-            //initializations by Adam Shaw
-
+        
     /**
      * Create the game and initialise its internal map.
      */
@@ -51,56 +34,33 @@ public class Game
      */
     private void createRooms()
     {
-
-
+        Room dungeon, hallway, kitchen, diningRoom, bedroom, attic, roof, bathroom;
+      
         // create the rooms
-        masterBedroom = new Room("in the master bedroom");
-        study = new Room("in the study");
-        livingRoom = new Room("in the living room");
-        entranceHall = new Room("in the entrace hall of the Mansion");
-        outside  = new Room("outside of the Mansion! You win!");
-        library = new Room("in the library");
-        diningRoom = new Room("in the dining room");
-        wineCellar = new Room("in the wine cellar");
-        dungeon = new Room("in the mansion's dungeon");
+        dungeon = new Room("locked inside the dungeon");
+        hallway = new Room("in the main hallway of the mansion");
         kitchen = new Room("in the kitchen");
-        drawingRoom = new Room("in the drawing room");
-
+        diningRoom= new Room("in the dining room");
+        bedroom = new Room("in the master bedroom");
+        attic = new Room("in the attic");
+        roof = new Room("on the mansion rooftop");
+        bathroom = new Room("in the bathroom");
+        
         // initialise room exits
-        masterBedroom.setExit("east", study);
+        outside.setExit("east", theatre);
+        outside.setExit("south", lab);
+        outside.setExit("west", pub);
 
-        study.setExit("west", masterBedroom);
-        study.setExit("south", library);        
-        study.setExit("east", livingRoom);
+        theatre.setExit("west", outside);
 
-        livingRoom.setExit("west", study);
-        livingRoom.setExit("south", diningRoom);
-        livingRoom.setExit("east", entranceHall);
+        pub.setExit("east", outside);
 
-        entranceHall.setExit("west", livingRoom);
-        entranceHall.setExit("north", outside);
+        lab.setExit("north", outside);
+        lab.setExit("east", office);
 
-        outside.setExit("south", entranceHall);
+        office.setExit("west", lab);
 
-        library.setExit("north", study);
-        library.setExit("east", diningRoom);
-
-        diningRoom.setExit("north", livingRoom);
-        diningRoom.setExit("west", library);
-        diningRoom.setExit("south", kitchen);
-
-        kitchen.setExit("north", diningRoom);
-        kitchen.setExit("east", drawingRoom);
-        kitchen.setExit("south", wineCellar); 
-
-        drawingRoom.setExit("west",kitchen);
-
-        dungeon.setExit("east",wineCellar);
-
-        wineCellar.setExit("north",kitchen);
-        wineCellar.setExit("west",dungeon);
-
-        currentRoom = dungeon;  // start game in dungeon
+        currentRoom = outside;  // start game outside
     }
 
     /**
@@ -112,7 +72,7 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-
+                
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -134,7 +94,6 @@ public class Game
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
-
     }
 
     /**
@@ -174,8 +133,8 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("You are scared. You are alone. You wander");
+        System.out.println("around the old halls of the haunted mansion.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
@@ -204,10 +163,6 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
-            if (currentRoom==outside)
-            {
-                winCondition();
-            }
         }
     }
 
@@ -225,10 +180,5 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
-    }
-
-    private void winCondition()
-    {
-        System.out.println("You win!");
     }
 }
