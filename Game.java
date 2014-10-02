@@ -136,7 +136,9 @@ public class Game
         drawingRoom.setExit("west",kitchen);
 
         dungeon.setExit("east",wineCellar);
-
+        dungeon.setItem(key);
+        dungeon.setItem(door);
+        
         wineCellar.setExit("north",kitchen);
         wineCellar.setExit("west",dungeon);
 
@@ -167,7 +169,8 @@ public class Game
     {
         System.out.println();
         System.out.println("Welcome to the Haunted Mansion!");
-        System.out.println("You wake up with a headache and a sharp pain in your arm. The floor is cold and damp.");
+        System.out.println("You wake up with a headache and a sharp pain in your arm.");
+        System.out.println("The floor is cold and damp.");
         System.out.println("You stand up but when you try to walk you suddenly trip and realize you're shackled to the floor");
         System.out.println("You're stuck in a dungeon. The room is dark. Try to escape.");
         System.out.println("Type 'help' if you need help.");
