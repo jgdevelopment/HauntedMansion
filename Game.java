@@ -79,7 +79,7 @@ public class Game
         hint.setWeight(5); // out of 100
         Command readHint = new Command("read", "piece of paper");
         hint.setPermissions(readHint);
-        
+
         //initializations by Adam Shaw
         Room masterBedroom,
         study,
@@ -208,6 +208,16 @@ public class Game
         else if (commandWord.equals("go")) {
             if (currentRoom.isLocked){
                 System.out.println("You try to open the door but find that it is locked!");
+                System.out.println("You notice a number pad next to the door.");
+                System.out.println("Enter Passcode: ");
+                int code= parser.getInt();
+                if (code == 1492){
+                    System.out.println("User Verified");
+                    dungeon.setIsLocked(false);
+                }
+                else{
+                    System.out.println("Incorrect");
+                }
             }
             else{
                 goRoom(command);
@@ -233,16 +243,12 @@ public class Game
             //if map
             System.out.println("Contents");
             // else if hint
-            
         }
         else if (commandWord.equals("search")) {
             // prints if anything was found or if there is nothing there
             // if there is something found it asks user if they want to add it to inventory
             // weight of added object is added to user (done though item and user classes)
             // item is added to 
-        }
-        else if (commandWord.equals("add")) {
-
         }
         else if (commandWord.equals("drop")) {
 

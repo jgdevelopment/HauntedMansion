@@ -64,6 +64,12 @@ public class Parser
         }
     }
 
+    public int getInt(){
+        int inputLine;   // will hold the full input line
+        inputLine = reader.nextInt();
+        return inputLine;
+    }
+
     /**
      * Print out a list of valid command words.
      */
