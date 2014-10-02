@@ -14,20 +14,16 @@ dependency4.type=UsesDependency
 dependency5.from=Game
 dependency5.to=Room
 dependency5.type=UsesDependency
-dependency6.from=Items
-dependency6.to=Command
-dependency6.type=UsesDependency
-dependency7.from=Room
-dependency7.to=Items
-dependency7.type=UsesDependency
-dependency8.from=Game
-dependency8.to=Items
-dependency8.type=UsesDependency
 package.editor.height=391
 package.editor.width=510
+<<<<<<< HEAD
+package.editor.x=70
+package.editor.y=70
+=======
 package.editor.x=294
 package.editor.y=64
-package.numDependencies=8
+>>>>>>> ad32a9551be9deb2ec26f8d1099fd8e66034aa08
+package.numDependencies=5
 package.numTargets=6
 package.showExtends=true
 package.showUses=true
@@ -38,43 +34,71 @@ readme.editor.x=0
 readme.editor.y=22
 target1.editor.height=700
 target1.editor.width=900
-target1.editor.x=0
-target1.editor.y=22
+target1.editor.x=756
+target1.editor.y=23
 target1.height=50
 target1.name=Items
 target1.naviview.expanded=true
 target1.showInterface=false
 target1.type=ClassTarget
+<<<<<<< HEAD
+target1.width=100
+target1.x=130
+target1.y=160
+target2.editor.height=708
+target2.editor.width=648
+target2.editor.x=50
+target2.editor.y=22
+=======
 target1.width=80
-target1.x=250
-target1.y=270
+target1.x=70
+target1.y=10
 target2.editor.height=700
 target2.editor.width=900
-target2.editor.x=213
-target2.editor.y=22
+target2.editor.x=422
+target2.editor.y=23
+>>>>>>> ad32a9551be9deb2ec26f8d1099fd8e66034aa08
 target2.height=50
 target2.name=Command
 target2.naviview.expanded=true
 target2.showInterface=false
 target2.type=ClassTarget
+<<<<<<< HEAD
+target2.width=90
+target2.x=240
+target2.y=20
+target3.editor.height=705
+target3.editor.width=648
+target3.editor.x=512
+=======
 target2.width=100
 target2.x=130
 target2.y=160
 target3.editor.height=711
 target3.editor.width=1108
 target3.editor.x=50
+>>>>>>> ad32a9551be9deb2ec26f8d1099fd8e66034aa08
 target3.editor.y=22
 target3.height=50
 target3.name=Parser
 target3.naviview.expanded=true
 target3.showInterface=false
 target3.type=ClassTarget
+<<<<<<< HEAD
+target3.width=100
+target3.x=130
+target3.y=220
+target4.editor.height=708
+target4.editor.width=648
+target4.editor.x=50
+=======
 target3.width=90
 target3.x=240
 target3.y=20
 target4.editor.height=705
-target4.editor.width=1025
-target4.editor.x=341
+target4.editor.width=648
+target4.editor.x=636
+>>>>>>> ad32a9551be9deb2ec26f8d1099fd8e66034aa08
 target4.editor.y=22
 target4.height=50
 target4.name=Room
@@ -86,7 +110,7 @@ target4.x=130
 target4.y=220
 target5.editor.height=709
 target5.editor.width=648
-target5.editor.x=349
+target5.editor.x=50
 target5.editor.y=22
 target5.height=50
 target5.name=CommandWords
@@ -98,7 +122,7 @@ target5.x=360
 target5.y=160
 target6.editor.height=706
 target6.editor.width=869
-target6.editor.x=497
+target6.editor.x=572
 target6.editor.y=22
 target6.height=50
 target6.name=Game

@@ -35,7 +35,7 @@ public class Game
     dungeon,
     kitchen,
     drawingRoom;
-    //initializations by Adam Shaw
+            //initializations by Adam Shaw
 
     /**
      * Create the game and initialise its internal map.
@@ -51,30 +51,13 @@ public class Game
      */
     private void createRooms()
     {
+<<<<<<< HEAD
         //Initalize items and settings by JG
         Items book = new Items("book");
         book.setWeight(25); // out of 100
         Command read = new Command("read", "book");
         book.setPermissions(read);
-
-        Items key = new Items("key");
-        key.setWeight(5); // out of 100
-
-        Items door = new Items("door");
-        door.setWeight(101); // out of 100
-        Command open = new Command("open", "door");
-        door.setPermissions(open);
-
-        Items food = new Items("food");
-        food.setWeight(10); // out of 100
-        Command eat = new Command("eat", "food");
-        food.setPermissions(eat);
-
-        Items closet = new Items("closet");
-        closet.setWeight(101); // out of 100
-        Command search = new Command("search", "closet");
-        closet.setPermissions(search);
-
+        
         //initializations by Adam Shaw
         Room masterBedroom,
         study,
@@ -86,6 +69,9 @@ public class Game
         dungeon,
         kitchen, 
         drawingRoom;
+=======
+
+>>>>>>> 11149e6477f3c63a8c90f0e0df204f31fe253699
 
         // create the rooms
         masterBedroom = new Room("in the master bedroom");
@@ -102,14 +88,11 @@ public class Game
 
         // initialise room exits and items in room
         masterBedroom.setExit("east", study);
-        masterBedroom.setItem(book);
-        masterBedroom.setItem(closet);
-        masterBedroom.setItem(door);
-
+        masterBedroom.setItems(book);
+        
         study.setExit("west", masterBedroom);
         study.setExit("south", library);        
         study.setExit("east", livingRoom);
-        study.setItem(book);
 
         livingRoom.setExit("west", study);
         livingRoom.setExit("south", diningRoom);
@@ -130,8 +113,6 @@ public class Game
         kitchen.setExit("north", diningRoom);
         kitchen.setExit("east", drawingRoom);
         kitchen.setExit("south", wineCellar); 
-        kitchen.setItem(food);
-        kitchen.setItem(door);
 
         drawingRoom.setExit("west",kitchen);
 
@@ -198,34 +179,6 @@ public class Game
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
-        }
-        else if (commandWord.equals("back")) {
-            //go to previous room (either store info or reference room class)
-        }
-        else if (commandWord.equals("pick up")) {
-            //add item to user weight and inventory for other commands like open
-        }
-        else if (commandWord.equals("open")) {
-            // check if user has key
-        }
-        else if (commandWord.equals("eat")) {
-            // print you are sick, the food was poisoned
-            //change user so that they die unless they find medicine in 3 steps 
-        }
-        else if (commandWord.equals("read")) {
-            System.out.println("Contents of Map");
-        }
-        else if (commandWord.equals("search")) {
-            // prints if anything was found or if there is nothing there
-            // if there is something found it asks user if they want to add it to inventory
-            // weight of added object is added to user (done though item and user classes)
-            // item is added to 
-        }
-         else if (commandWord.equals("add")) {
-
-        }
-        else if (commandWord.equals("drop")) {
-
         }
         // else command not recognised.
         return wantToQuit;
