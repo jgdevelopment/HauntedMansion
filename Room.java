@@ -44,13 +44,17 @@ public class Room
     {
         exits.put(direction, neighbor);
     }
-    
-    public void setItems(Items item) 
+    //item methods by JG
+    public void setItem(Items item) // possibly change to array list
     {
         this.items.add(item);
     }
     public ArrayList<Items> getItems() 
     {
+        String 
+        for (Items item : this.items){
+            
+        }
         return this.items;
     }
     /**

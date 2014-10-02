@@ -2,12 +2,12 @@ import java.util.ArrayList;
 /**
  * Write a description of class Items here.
  * 
- * @author (your name) 
+ * @author class by JG
  * @version (a version number or a date)
  */
 public class Items
 {
-    // instance variables - replace the example below with your own
+    // instance variables - 
     private String description;
     private int weight;
     private ArrayList<String> permissions;
@@ -18,6 +18,8 @@ public class Items
     {
         // initialise instance variables
         this.description = description;
+        Command pickUp = new Command("pick up", this.description);
+        this.setPermissions(pickUp);
     }
     public void setPermissions(Command command)
     {
@@ -33,5 +35,9 @@ public class Items
     }
     public int getWeight(){
         return this.weight;
+    }
+    public void dropItem(){ // maybe add to user class instead
+        this.permissions = null;
+        this.weight = 0;
     }
 }
