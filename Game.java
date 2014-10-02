@@ -54,8 +54,8 @@ public class Game
         //Initalize items and settings by JG
         Items book = new Items("book");
         book.setWeight(25); // out of 100
-        Command read = new Command("read", "book");
-        book.setPermissions(read);
+        Command readMap = new Command("read", "book");
+        book.setPermissions(readMap);
 
         Items key = new Items("key");
         key.setWeight(5); // out of 100
@@ -75,6 +75,11 @@ public class Game
         Command search = new Command("search", "closet");
         closet.setPermissions(search);
 
+        Items hint = new Items("piece of paper");
+        hint.setWeight(5); // out of 100
+        Command readHint = new Command("read", "piece of paper");
+        hint.setPermissions(readHint);
+        
         //initializations by Adam Shaw
         Room masterBedroom,
         study,
@@ -136,9 +141,10 @@ public class Game
         drawingRoom.setExit("west",kitchen);
 
         dungeon.setExit("east",wineCellar);
-        dungeon.setItem(key);
+        dungeon.setItem(hint);
         dungeon.setItem(door);
-        
+        dungeon.setIsLocked(true);
+
         wineCellar.setExit("north",kitchen);
         wineCellar.setExit("west",dungeon);
 
@@ -170,9 +176,12 @@ public class Game
         System.out.println();
         System.out.println("Welcome to the Haunted Mansion!");
         System.out.println("You wake up with a headache and a sharp pain in your arm.");
-        System.out.println("The floor is cold and damp.");
-        System.out.println("You stand up but when you try to walk you suddenly trip and realize you're shackled to the floor");
-        System.out.println("You're stuck in a dungeon. The room is dark. Try to escape.");
+        System.out.println("You stand up but when you try to walk you suddenly trip");
+        System.out.println("and realize you're shackled to the floor.");
+        System.out.println("You're stuck in a dungeon. The room is dark.");
+        System.out.println();
+        System.out.println("Try to escape.");
+        System.out.println();
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -197,7 +206,12 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            if (currentRoom.isLocked){
+                System.out.println("You try to open the door but find that it is locked!");
+            }
+            else{
+                goRoom(command);
+            }
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -216,7 +230,10 @@ public class Game
             //change user so that they die unless they find medicine in 3 steps 
         }
         else if (commandWord.equals("read")) {
-            System.out.println("Contents of Map");
+            //if map
+            System.out.println("Contents");
+            // else if hint
+            
         }
         else if (commandWord.equals("search")) {
             // prints if anything was found or if there is nothing there
@@ -224,7 +241,7 @@ public class Game
             // weight of added object is added to user (done though item and user classes)
             // item is added to 
         }
-         else if (commandWord.equals("add")) {
+        else if (commandWord.equals("add")) {
 
         }
         else if (commandWord.equals("drop")) {
@@ -243,10 +260,11 @@ public class Game
      */
     private void printHelp() 
     {
+        System.out.println();
         System.out.println("You are lost. You are scared. You wander");
         System.out.println("around the haunted mansion.");
         System.out.println();
-        System.out.println("You are not alones.");
+        System.out.println("You are not alone.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();

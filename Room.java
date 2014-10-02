@@ -21,6 +21,7 @@ public class Room
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
     private ArrayList<Items> items;
+    public boolean isLocked;
     
     /**
      * Create a room described "description". Initially, it has
@@ -49,15 +50,21 @@ public class Room
     {
         this.items.add(item);
     }
+    public void setIsLocked(boolean value){
+        this.isLocked = value;
+    }
     public String getItemsString() 
     {
-        String returnString = "You see in the room a";
+        String returnString = "You see in the room";
         for (Items item : this.items){
-            returnString += " "+item.description;
-            returnString += " and a";
+            returnString += " a "+item.description;
+        }
+        if (this.items.isEmpty()){
+            returnString = "";
         }
         return returnString;
     }
+
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
