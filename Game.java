@@ -224,9 +224,6 @@ public class Game
             // weight of added object is added to user (done though item and user classes)
             // item is added to 
         }
-         else if (commandWord.equals("add")) {
-
-        }
         else if (commandWord.equals("drop")) {
 
         }
@@ -246,7 +243,7 @@ public class Game
         System.out.println("You are lost. You are scared. You wander");
         System.out.println("around the haunted mansion.");
         System.out.println();
-        System.out.println("You are not alones.");
+        System.out.println("You are not alone.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
