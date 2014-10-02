@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Items
 {
     // instance variables - 
-    private String description;
+    public String description;
     private int weight;
     private ArrayList<String> permissions;
     /**
@@ -17,6 +17,7 @@ public class Items
     public Items(String description)
     {
         // initialise instance variables
+        permissions = new ArrayList<String>();
         this.description = description;
         Command pickUp = new Command("pick up", this.description);
         this.setPermissions(pickUp);

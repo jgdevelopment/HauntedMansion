@@ -49,13 +49,14 @@ public class Room
     {
         this.items.add(item);
     }
-    public ArrayList<Items> getItems() 
+    public String getItemsString() 
     {
-        String 
+        String returnString = "You see in the room a";
         for (Items item : this.items){
-            
+            returnString += " "+item.description;
+            returnString += " and a";
         }
-        return this.items;
+        return returnString;
     }
     /**
      * @return The short description of the room
@@ -74,7 +75,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" + getExitString()+ ".\n" + getItemsString();
     }
 
     /**
