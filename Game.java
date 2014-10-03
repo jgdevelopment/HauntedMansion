@@ -60,11 +60,6 @@ public class Game
         Items key = new Items("key");
         key.setWeight(5); // out of 100
 
-        Items door = new Items("door");
-        door.setWeight(101); // out of 100
-        Command open = new Command("open", "door");
-        door.setPermissions(open);
-
         Items food = new Items("food");
         food.setWeight(10); // out of 100
         Command eat = new Command("eat", "food");
@@ -109,7 +104,6 @@ public class Game
         masterBedroom.setExit("east", study);
         masterBedroom.setItem(book);
         masterBedroom.setItem(closet);
-        masterBedroom.setItem(door);
 
         study.setExit("west", masterBedroom);
         study.setExit("south", library);        
@@ -136,13 +130,10 @@ public class Game
         kitchen.setExit("east", drawingRoom);
         kitchen.setExit("south", wineCellar); 
         kitchen.setItem(food);
-        kitchen.setItem(door);
 
         drawingRoom.setExit("west",kitchen);
-
         dungeon.setExit("east",wineCellar);
         dungeon.setItem(hint);
-        dungeon.setItem(door);
         dungeon.setIsLocked(true);
 
         wineCellar.setExit("north",kitchen);
@@ -231,33 +222,34 @@ public class Game
         else if (commandWord.equals("pick up")) {
             //add item to user weight and inventory for other commands like open
         }
-        else if (commandWord.equals("open")) {
-            // check if user has key
-        }
         else if (commandWord.equals("eat")) {
             // print you are sick, the food was poisoned
             //change user so that they die unless they find medicine in 3 steps 
         }
         else if (commandWord.equals("read")) {
-            //if map
-            System.out.println("____________________________________________________________|exit|___");
-            System.out.println("|                |                |                |                |");
-            System.out.println("|     master     |     study      |     living     |    entrance    |");
-            System.out.println("|    bedroom     |                |      room      |      hall      |");
-            System.out.println("|________________|________________|________________|________________|");
-            System.out.println("                 |                |                |");
-            System.out.println("                 |    library     |     dining     |");
-            System.out.println("                 |                |      room      |");
-            System.out.println("                 |________________|________________|_________________");
-            System.out.println("                                  |                |                |");
-            System.out.println("                                  |     kitchen    |     drawing    |");
-            System.out.println("                                  |                |      room      |");
-            System.out.println("                  ________________|________________|________________|");
-            System.out.println("                 |                |                |");
-            System.out.println("                 |    dungeon     |      wine      |");
-            System.out.println("                 |                |     cellar     |");
-            System.out.println("                 |________________|________________|");
-            // else if hint
+            if (command.getSecondWord().equals("map")){
+                System.out.println("____________________________________________________________|exit|___");
+                System.out.println("|                |                |                |                |");
+                System.out.println("|     master     |     study      |     living     |    entrance    |");
+                System.out.println("|    bedroom     |                |      room      |      hall      |");
+                System.out.println("|________________|________________|________________|________________|");
+                System.out.println("                 |                |                |");
+                System.out.println("                 |    library     |     dining     |");
+                System.out.println("                 |                |      room      |");
+                System.out.println("                 |________________|________________|_________________");
+                System.out.println("                                  |                |                |");
+                System.out.println("                                  |     kitchen    |     drawing    |");
+                System.out.println("                                  |                |      room      |");
+                System.out.println("                  ________________|________________|________________|");
+                System.out.println("                 |                |                |");
+                System.out.println("                 |    dungeon     |      wine      |");
+                System.out.println("                 |                |     cellar     |");
+                System.out.println("                 |________________|________________|");
+                // else if hint
+            }
+            else if (command.getSecondWord().equals("piece")){
+                System.out.println("the ocean blue");
+            }
         }
         else if (commandWord.equals("search")) {
             // prints if anything was found or if there is nothing there

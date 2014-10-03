@@ -1,5 +1,4 @@
 import java.lang.Math;
-
 /**
  * class User holds the inventory of the User. we also might update it in order to facilitate
  * iteraction with characters.
@@ -10,32 +9,33 @@ import java.lang.Math;
 public class User
 {
     // instance variables - replace the example below with your own
-    private static int INITIAL_INVENTORY_WEIGHT_CAPACITY=100;
-    private static int SICK_RANDOM_CONDITION=20;
+    private static int INVENTORY_CAPACITY=100;
+    private static int CONDITION=20;
 
-    private int weightCapacInv;
+    private int weight;
     private boolean isSick;
+    private boolean inventoryIsFull;
+
     /**
      * Constructor for objects of class User
      */
     public User()
     {
-        this.setInventorySize(INITIAL_INVENTORY_WEIGHT_CAPACITY);
+        this.weight = 0;
+        this.inventoryIsFull = false;
     }
 
-    private void setInventorySize (int invWeight)
-    {
-        this.weightCapacInv = invWeight;
-    }
-
-    private int getInventorySize ()
-    {
-        return this.weightCapacInv;
+    private void addItem(Items item){
+        this.weight += item.weight;
+        if (this.weight< INVENTORY_CAPACITY){
+            this.weight -=item.weight;
+            this.inventoryIsFull = true;
+        }    
     }
 
     private void sickRandomizer()
     {
-        if(Math.random()<(1/SICK_RANDOM_CONDITION))
+        if(Math.random()<(1/CONDITION))
         {
             makeSick();
         }
