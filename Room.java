@@ -22,7 +22,7 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     private ArrayList<Items> items;
     public boolean isLocked;
-    
+
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -50,18 +50,22 @@ public class Room
     {
         this.items.add(item);
     }
+
     public void setIsLocked(boolean value){
         this.isLocked = value;
     }
+
     public String getItemsString() 
     {
-        String returnString = "You see in the room";
+        String returnString ="\n";
+        returnString += "You see in the room:\n";
         for (Items item : this.items){
-            returnString += " a "+item.description;
+            returnString += "\na "+item.description;
         }
         if (this.items.isEmpty()){
             returnString = "";
         }
+        returnString +="\n";
         return returnString;
     }
 

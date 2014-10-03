@@ -182,9 +182,9 @@ public class Game
         System.out.println();
         System.out.println("Try to escape.");
         System.out.println();
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
         System.out.println(currentRoom.getLongDescription());
+        System.out.println();
+        System.out.println("Type 'help' if you need help.");
 
     }
 
@@ -196,7 +196,6 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
         if(command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
@@ -213,7 +212,7 @@ public class Game
                 int code= parser.getInt();
                 if (code == 1492){
                     System.out.println("User Verified");
-                    dungeon.setIsLocked(false);
+                    currentRoom.setIsLocked(false);
                 }
                 else{
                     System.out.println("Incorrect");
@@ -241,7 +240,23 @@ public class Game
         }
         else if (commandWord.equals("read")) {
             //if map
-            System.out.println("Contents");
+            System.out.println("____________________________________________________________|exit|___");
+            System.out.println("|                |                |                |                |");
+            System.out.println("|     master     |     study      |     living     |    entrance    |");
+            System.out.println("|    bedroom     |                |      room      |      hall      |");
+            System.out.println("|________________|________________|________________|________________|");
+            System.out.println("                 |                |                |");
+            System.out.println("                 |    library     |     dining     |");
+            System.out.println("                 |                |      room      |");
+            System.out.println("                 |________________|________________|_________________");
+            System.out.println("                                  |                |                |");
+            System.out.println("                                  |     kitchen    |     drawing    |");
+            System.out.println("                                  |                |      room      |");
+            System.out.println("                  ________________|________________|________________|");
+            System.out.println("                 |                |                |");
+            System.out.println("                 |    dungeon     |      wine      |");
+            System.out.println("                 |                |     cellar     |");
+            System.out.println("                 |________________|________________|");
             // else if hint
         }
         else if (commandWord.equals("search")) {
