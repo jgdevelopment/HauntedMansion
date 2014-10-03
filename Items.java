@@ -9,7 +9,7 @@ public class Items
 {
     // instance variables - 
     public String description;
-    private int weight;
+    public int weight;
     private ArrayList<String> permissions;
     /**
      * Constructor for objects of class Items
