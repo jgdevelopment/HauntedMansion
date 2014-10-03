@@ -9,7 +9,7 @@ import java.lang.Math;
  */
 public class User
 {
-    // instance variables - replace the example below with your own
+    // the following are used as placeholders for static ints
     private static int INITIAL_INVENTORY_WEIGHT_CAPACITY=100;
     private static int SICK_RANDOM_CONDITION=20;
 
@@ -21,8 +21,30 @@ public class User
     public User()
     {
         this.setInventorySize(INITIAL_INVENTORY_WEIGHT_CAPACITY);
+        this.makeWell();
     }
 
+    public void sickRandomizer()
+    {
+        if(Math.random()<(1/SICK_RANDOM_CONDITION))
+        {
+            makeSick();
+        }
+    }
+    
+    public void sickRandomizerBiggerChance()
+    {
+        if(Math.random()<(10/SICK_RANDOM_CONDITION))
+        {
+            makeSick();
+        }
+    }
+    
+    public boolean returnSickCondition()
+    {
+        return this.isSick;
+    }
+    
     private void setInventorySize (int invWeight)
     {
         this.weightCapacInv = invWeight;
@@ -33,14 +55,6 @@ public class User
         return this.weightCapacInv;
     }
 
-    private void sickRandomizer()
-    {
-        if(Math.random()<(1/SICK_RANDOM_CONDITION))
-        {
-            makeSick();
-        }
-    }
-
     private void makeSick()
     {
         this.isSick=true;
@@ -49,10 +63,5 @@ public class User
     private void makeWell()
     {
         this.isSick=false;
-    }
-
-    private boolean returnSickCondition()
-    {
-        return this.isSick;
     }
 }

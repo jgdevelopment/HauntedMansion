@@ -23,6 +23,10 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room roomsVisited[];
+    private int numRoomsVisitedMinusOne;
+    private User you;
+    private int sickTurnsLeft;
 
     Room masterBedroom,
     study,
@@ -52,6 +56,8 @@ public class Game
     private void createRooms()
     {
         //Initalize items and settings by JG
+        you = new User();
+
         Items book = new Items("book");
         book.setWeight(25); // out of 100
         Command readMap = new Command("read", "book");
@@ -80,6 +86,8 @@ public class Game
         Command readHint = new Command("read", "piece of paper");
         hint.setPermissions(readHint);
 
+        
+        
         //initializations by Adam Shaw
         Room masterBedroom,
         study,
@@ -149,6 +157,9 @@ public class Game
         wineCellar.setExit("west",dungeon);
 
         currentRoom = dungeon;  // start game in dungeon
+        
+        numRoomsVisitedMinusOne=-1;
+        roomLogUpdate();
     }
 
     /**
@@ -205,22 +216,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            if (currentRoom.isLocked){
-                System.out.println("You try to open the door but find that it is locked!");
-                System.out.println("You notice a number pad next to the door.");
-                System.out.println("Enter Passcode: ");
-                int code= parser.getInt();
-                if (code == 1492){
-                    System.out.println("User Verified");
-                    currentRoom.setIsLocked(false);
-                }
-                else{
-                    System.out.println("Incorrect");
-                }
-            }
-            else{
-                goRoom(command);
-            }
+            newRoomAttempt(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -234,12 +230,13 @@ public class Game
         else if (commandWord.equals("open")) {
             // check if user has key
         }
-        else if (commandWord.equals("eat")) {
-            // print you are sick, the food was poisoned
-            //change user so that they die unless they find medicine in 3 steps 
+        else if (commandWord.equals("consume")) {
+
+            //change user so that they die unless they find medicine in 3 steps
         }
         else if (commandWord.equals("read")) {
             //if map
+
             System.out.println("____________________________________________________________|exit|___");
             System.out.println("|                |                |                |                |");
             System.out.println("|     master     |     study      |     living     |    entrance    |");
@@ -337,8 +334,64 @@ public class Game
         }
     }
 
+    private void newRoomAttempt(Command command)
+    {
+        if (currentRoom.isLocked){
+            System.out.println("You try to open the door but find that it is locked!");
+            System.out.println("You notice a number pad next to the door.");
+            System.out.println("Enter Passcode: ");
+            int code= parser.getInt();
+            if (code == 1492){
+                System.out.println("User Verified");
+                currentRoom.setIsLocked(false);
+            }
+            else{
+                System.out.println("Incorrect");
+            }
+        }
+        else{
+            goRoom(command);
+        }
+        if(!you.returnSickCondition())
+        {   
+            you.sickRandomizer();
+            if(you.returnSickCondition())
+            {
+                sickTurnsLeft=3;
+            }
+            else
+            {
+                sickTurnsLeft=1000;
+            }
+        } 
+        else
+        {
+            sickTurnsLeft--;
+            if(sickTurnsLeft<=0)
+            {
+                System.out.println("You have died of sickness!");
+                loseCondition();
+            }
+        }
+        if(you.returnSickCondition())
+        {
+            System.out.println("You are now sick. You have " + sickTurnsLeft + " turns left to find medicine before you die.");
+        }
+    }
+
     private void winCondition()
     {
         System.out.println("You win!");
+    }
+    
+    private void roomLogUpdate()
+    {
+        numRoomsVisitedMinusOne++;
+        roomsVisited[numRoomsVisitedMinusOne]=currentRoom;
+    }
+
+    private void loseCondition()
+    {
+        System.out.println("You lose!");
     }
 }
