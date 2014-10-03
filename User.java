@@ -14,7 +14,7 @@ public class User
 
     private int weight;
     private boolean isSick;
-    private boolean inventoryIsFull;
+    public boolean inventoryIsFull;
 
     /**
      * Constructor for objects of class User

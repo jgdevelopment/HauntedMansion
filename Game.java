@@ -23,7 +23,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
+    private User user;
+    
     Room masterBedroom,
     study,
     livingRoom,
@@ -188,7 +189,7 @@ public class Game
     {
         boolean wantToQuit = false;
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            //System.out.println("I don't know what you mean...");
             return false;
         }
         String commandWord = command.getCommandWord();
@@ -203,6 +204,7 @@ public class Game
                 int code= parser.getInt();
                 if (code == 1492){
                     System.out.println("User Verified");
+                    goRoom(command);
                     currentRoom.setIsLocked(false);
                 }
                 else{
@@ -221,6 +223,11 @@ public class Game
         }
         else if (commandWord.equals("pick up")) {
             //add item to user weight and inventory for other commands like open
+            if (this.user.inventoryIsFull){
+                System.out.println("Cannot pick up item. Inventory is full");
+            }
+            else{
+            }
         }
         else if (commandWord.equals("eat")) {
             // print you are sick, the food was poisoned

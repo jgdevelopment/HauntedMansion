@@ -60,7 +60,7 @@ public class Room
         String returnString ="\n";
         returnString += "You see in the room:\n";
         for (Items item : this.items){
-            returnString += "\na "+item.description;
+            returnString += "\n"+item.description;
         }
         if (this.items.isEmpty()){
             returnString = "";
@@ -86,7 +86,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString()+ ".\n" + getItemsString();
+        return "\nYou are " + description + ".\n" + getExitString()+ ".\n" + getItemsString();
     }
 
     /**
