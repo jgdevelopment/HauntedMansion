@@ -23,8 +23,11 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private User user;
-    
+    private Room roomsVisited[]= new Room[100];
+    private int numRoomsVisitedMinusOne;
+    private User you;
+    private int sickTurnsLeft;
+
     Room masterBedroom,
     study,
     livingRoom,
@@ -52,7 +55,8 @@ public class Game
      */
     private void createRooms()
     {
-        //Initalize items and settings by JG
+        you = new User();
+        //Initalize items by JG
         Items book = new Items("book");
         book.setWeight(25); // out of 100
         Command readMap = new Command("read", "book");
@@ -141,6 +145,8 @@ public class Game
         wineCellar.setExit("west",dungeon);
 
         currentRoom = dungeon;  // start game in dungeon
+        numRoomsVisitedMinusOne=-1;
+        roomLogUpdate();
     }
 
     /**
@@ -197,23 +203,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            if (currentRoom.isLocked){
-                System.out.println("You try to open the door but find that it is locked!");
-                System.out.println("You notice a number pad next to the door.");
-                System.out.println("Enter Passcode: ");
-                int code= parser.getInt();
-                if (code == 1492){
-                    System.out.println("User Verified");
-                    goRoom(command);
-                    currentRoom.setIsLocked(false);
-                }
-                else{
-                    System.out.println("Incorrect");
-                }
-            }
-            else{
-                goRoom(command);
-            }
+            goRoom(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -223,15 +213,21 @@ public class Game
         }
         else if (commandWord.equals("pick up")) {
             //add item to user weight and inventory for other commands like open
-            if (this.user.inventoryIsFull){
+            if (this.you.inventoryIsFull){
                 System.out.println("Cannot pick up item. Inventory is full");
             }
             else{
             }
         }
         else if (commandWord.equals("eat")) {
-            // print you are sick, the food was poisoned
-            //change user so that they die unless they find medicine in 3 steps 
+            if(currentRoom==kitchen)
+            {
+                if (command.getSecondWord().equals("food"))
+                {
+                    you.makeSick();
+                    sickTurnsLeft=4;
+                }
+            }
         }
         else if (commandWord.equals("read")) {
             if (command.getSecondWord().equals("map")){
@@ -255,7 +251,7 @@ public class Game
                 // else if hint
             }
             else if (command.getSecondWord().equals("piece")){
-                System.out.println("the ocean blue");
+                System.out.println("Columbus sailed the ocean blue");
             }
         }
         else if (commandWord.equals("search")) {
@@ -296,6 +292,7 @@ public class Game
      */
     private void goRoom(Command command) 
     {
+
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
@@ -304,18 +301,68 @@ public class Game
 
         String direction = command.getSecondWord();
 
+        boolean enterable=false;
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
-        else {
+        else
+        {
+            if (currentRoom.isLocked){
+                System.out.println("You try to open the door but find that it is locked from the inside!");
+                System.out.println("You notice a 4 digit PIN number pad next to the door.");
+                System.out.println("Enter Passcode: ");
+                int code= parser.getInt();
+                if (code == 1492){
+                    System.out.println("You have unlocked the door. You proceed into the next room.");
+                    currentRoom.setIsLocked(false);
+                    enterable=true;
+                }
+                else{
+                    System.out.println("Incorrect code.");
+                }
+            }
+            else
+            {
+                enterable=true;
+            }
+        }
+
+        if (enterable)
+        {
+            roomLogUpdate();
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
             if (currentRoom==outside)
             {
                 winCondition();
+            }
+            if(!you.returnSickCondition())
+            {   
+                you.sickRandomizer();
+                if(you.returnSickCondition())
+                {
+                    sickTurnsLeft=3;
+                }
+                else
+                {
+                    sickTurnsLeft=1000;
+                }
+            } 
+            else
+            {
+                sickTurnsLeft--;
+                if(sickTurnsLeft<=0)
+                {
+                    System.out.println("You have died of sickness!");
+                    loseCondition();
+                }
+            }
+            if(you.returnSickCondition())
+            {
+                System.out.println("You are now sick. You have " + sickTurnsLeft + " turns left to find medicine before you die.");
             }
         }
     }
@@ -339,5 +386,16 @@ public class Game
     private void winCondition()
     {
         System.out.println("You win!");
+    }
+
+    private void roomLogUpdate()
+    {
+        numRoomsVisitedMinusOne++;
+        roomsVisited[numRoomsVisitedMinusOne]=currentRoom;
+    }
+
+    private void loseCondition()
+    {
+        System.out.println("You lose!");
     }
 }

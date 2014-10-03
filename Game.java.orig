@@ -23,16 +23,11 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-<<<<<<< HEAD
     private Room roomsVisited[];
     private int numRoomsVisitedMinusOne;
     private User you;
     private int sickTurnsLeft;
-
-=======
-    private User user;
     
->>>>>>> 741e490e3f71a4c9476f2e5ad6fe7f13f4ef5528
     Room masterBedroom,
     study,
     livingRoom,
@@ -212,9 +207,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-<<<<<<< HEAD
             newRoomAttempt(command);
-=======
             if (currentRoom.isLocked){
                 System.out.println("You try to open the door but find that it is locked!");
                 System.out.println("You notice a number pad next to the door.");
@@ -232,7 +225,6 @@ public class Game
             else{
                 goRoom(command);
             }
->>>>>>> 741e490e3f71a4c9476f2e5ad6fe7f13f4ef5528
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -253,7 +245,6 @@ public class Game
             //change user so that they die unless they find medicine in 3 steps
         }
         else if (commandWord.equals("read")) {
-<<<<<<< HEAD
             //if map
 
             System.out.println("____________________________________________________________|exit|___");

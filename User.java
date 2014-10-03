@@ -10,7 +10,7 @@ public class User
 {
     // instance variables - replace the example below with your own
     private static int INVENTORY_CAPACITY=100;
-    private static int CONDITION=20;
+    private static int CONDITION=10;
 
     private int weight;
     private boolean isSick;
@@ -33,7 +33,7 @@ public class User
         }    
     }
 
-    private void sickRandomizer()
+    public void sickRandomizer()
     {
         if(Math.random()<(1/CONDITION))
         {
@@ -41,7 +41,7 @@ public class User
         }
     }
 
-    private void makeSick()
+    public void makeSick()
     {
         this.isSick=true;
     }
@@ -51,7 +51,7 @@ public class User
         this.isSick=false;
     }
 
-    private boolean returnSickCondition()
+    public boolean returnSickCondition()
     {
         return this.isSick;
     }
