@@ -206,7 +206,7 @@ public class Game
             }
         }
 
-        else if (item==null){
+        else if (item==null&&!commandWord.equals("help")&&!commandWord.equals("quit")){
             System.out.println("That is not an object.");
             return false;
         }
