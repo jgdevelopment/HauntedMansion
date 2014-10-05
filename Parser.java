@@ -23,7 +23,6 @@ public class Parser
     private Scanner reader;         // source of command input
     private String word1;
     private String word2;
-    private Room currentRoom;
 
     /**
      * Create a parser to read from the terminal window.
@@ -75,14 +74,11 @@ public class Parser
     }
 
     public Items getCommandItem(){
-        if (currentRoom!=null){
-            if (word2!=null&&!word1.equals("go")){
-                for (Items item: currentRoom.items){
-                    if (word2.equals(item.description)){
-                        return item;
-                    }
+        if (Game.currentRoom!=null&&word2!=null){
+            for (Items item: Game.currentRoom.items){
+                if (word2.equals(item.description)){
+                    return item;
                 }
-                return null;
             }
         }
         return null;

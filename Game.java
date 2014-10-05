@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
+    public static Room currentRoom;
     private User user;
     private ArrayList<Room> roomsVisited;
     private String direction;
@@ -191,26 +191,12 @@ public class Game
     {
         boolean wantToQuit = false;
         if(command.isUnknown()){
-            System.out.println("I don't know what you mean...");//shouldnt come up when 1492 entered
+            System.out.println("I don't know what you mean...");
             return false;
         }
-        //if room does not contain item state that you cannot access it unless added to inventory
-        //if item does not have permission for first word command state not allowed
         String commandWord = command.getCommandWord();
-        //         Items item = parser.getCommandItem();
-        //         if (item!=null){
-        //             System.out.println(item);
-        //             for (Command permission: item.permissions){
-        //                 if (command!=permission){
-        //                     System.out.println("You cannot use that command with this object");
-        //                     return false;
-        //                 }
-        //             }
-        //         }
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("go")) {
+        Items item = parser.getCommandItem();
+        if (commandWord.equals("go")) {
             direction = command.getSecondWord();
             nextRoom = currentRoom.getExit(direction);
             if (checkNextRoom(command,nextRoom)){
@@ -219,44 +205,45 @@ public class Game
                 }
             }
         }
-        else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
-        }
-        else if (commandWord.equals("back")) {
-            //go to previous room (either store info or reference room class)
-        }
-        else if (commandWord.equals("pick up")) {
-            //this doesnt have much use yet, except for key object.
-            if (this.user.inventoryIsFull){
-                System.out.println("Cannot pick up item. Inventory is full");
-            }
-            else{
-                //add item to user weight and inventory for other commands like open,
-                //user.weight+=item.weight;
-            }
-        }
-        else if (commandWord.equals("eat")) {
-            System.out.println("You eat the food, but quickly feel sick. It seems that it was poisoned");
-            user.makeSick();
-            user.weight += food.getWeight();
-            System.out.println("If you do not find the antidote soon you will die!"); 
-        }
-        else if (commandWord.equals("read")) {
-            if (command.getSecondWord().equals("map")){ //error can always open map
-                printMap();
-            }
-            else if (command.getSecondWord().equals("clue")){
-                System.out.println("the ocean blue");
-            }
-        }
-        else if (commandWord.equals("search")) {
-            // prints if anything was found or if there is nothing there
-            // if there is something found it asks user if they want to add it to inventory
-            // weight of added object is added to user (done though item and user classes)
-            // item is added to 
-        }
-        else if (commandWord.equals("drop")) {
 
+        else if (item==null){
+            System.out.println("That is not an object.");
+            return false;
+        }
+        else{
+            if (item.permissions.contains(command)){
+                System.out.println("You cannot use that command with this object");
+                return false;
+            }
+            if (commandWord.equals("help")) {
+                printHelp();
+            }
+            else if (commandWord.equals("quit")) {
+                wantToQuit = quit(command);
+            }
+            else if (commandWord.equals("pick up")) {
+                pickUp();
+            }
+            else if (commandWord.equals("eat")) {
+                eat();
+            }
+            else if (commandWord.equals("read")) {
+                if (command.getSecondWord().equals("map")){ //error can always open map
+                    printMap();
+                }
+                else if (command.getSecondWord().equals("clue")){
+                    System.out.println("the ocean blue");
+                }
+            }
+            else if (commandWord.equals("search")) {
+                // prints if anything was found or if there is nothing there
+                // if there is something found it asks user if they want to add it to inventory
+                // weight of added object is added to user (done though item and user classes)
+                // item is added to 
+            }
+            else if (commandWord.equals("drop")) {
+
+            }
         }
         // else command not recognised.
         return wantToQuit;
@@ -281,6 +268,23 @@ public class Game
         System.out.println("                 |    dungeon     |      wine      |");
         System.out.println("                 |                |     cellar     |");
         System.out.println("                 |________________|________________|");
+    }
+
+    private void pickUp(){
+        if (this.user.inventoryIsFull){
+            System.out.println("Cannot pick up item. Inventory is full");
+        }
+        else{
+            //add item to user weight and inventory for other commands like open,
+            //user.weight+=item.weight;
+        }
+    }
+
+    private void eat(){
+        System.out.println("You eat the food, but quickly feel sick. It seems that it was poisoned");
+        user.makeSick();
+        user.weight += food.getWeight();
+        System.out.println("If you do not find the antidote soon you will die!"); 
     }
 
     /**
@@ -319,6 +323,14 @@ public class Game
         return true;
     }
 
+    private boolean checkNextRoom(Command command, Room nextRoom){
+        if (nextRoom == null) {
+            System.out.println("There is no door!");
+            return false;
+        }
+        return true;
+    }
+
     /** 
      * Try to go to one direction. If there is an exit, enter the new
      * room, otherwise print an error message.
@@ -331,7 +343,6 @@ public class Game
             return;
         }
         roomsVisited.add(currentRoom);
-
         nextRoom.setExit("back",roomsVisited.get(roomsVisited.size()-1));
         currentRoom = nextRoom;
         System.out.println(currentRoom.getLongDescription());
@@ -340,16 +351,7 @@ public class Game
         {
             endGame("win");
         }
-
         updateHealth();
-    }
-
-    public boolean checkNextRoom(Command command, Room nextRoom){
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-            return false;
-        }
-        return true;
     }
 
     private void updateHealth(){
@@ -367,7 +369,6 @@ public class Game
                 endGame("lose");
             }
         }
-
     }
 
     private void endGame(String condition)
