@@ -1,5 +1,5 @@
-Project: zuul-better
-Authors: Michael Kolling and David J. Barnes
+Project: HauntedMansion
+Authors: Jason Ginsberg and Adam Shaw
 
 This project is part of the material for the book
 

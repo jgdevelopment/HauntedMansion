@@ -10,11 +10,11 @@ public class User
 {
     // instance variables - replace the example below with your own
     private static int INVENTORY_CAPACITY=100;
-    private static int CONDITION=20;
 
-    private int weight;
-    private boolean isSick;
+    public int weight;
+    public boolean isSick;
     public boolean inventoryIsFull;
+    public int timeLeft;
 
     /**
      * Constructor for objects of class User
@@ -25,7 +25,7 @@ public class User
         this.inventoryIsFull = false;
     }
 
-    private void addItem(Items item){
+    public void addItem(Items item){
         this.weight += item.weight;
         if (this.weight< INVENTORY_CAPACITY){
             this.weight -=item.weight;
@@ -33,26 +33,15 @@ public class User
         }    
     }
 
-    private void sickRandomizer()
-    {
-        if(Math.random()<(1/CONDITION))
-        {
-            makeSick();
-        }
-    }
-
-    private void makeSick()
+    public void makeSick()
     {
         this.isSick=true;
+        this.timeLeft=3;
     }
 
-    private void makeWell()
+    public void makeWell()
     {
         this.isSick=false;
-    }
-
-    private boolean returnSickCondition()
-    {
-        return this.isSick;
+        this.timeLeft=0;
     }
 }

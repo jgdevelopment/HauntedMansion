@@ -1,3 +1,5 @@
+import java.lang.Math;
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -24,7 +26,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private User user;
-    
+    private ArrayList<Room> roomsVisited;
+
+    //room initializations by Adam Shaw
     Room masterBedroom,
     study,
     livingRoom,
@@ -36,7 +40,14 @@ public class Game
     dungeon,
     kitchen,
     drawingRoom;
-    //initializations by Adam Shaw
+
+    Items map,
+    key,
+    food,
+    closet,
+    hint;
+
+    private static int CONDITION=20;
 
     /**
      * Create the game and initialise its internal map.
@@ -45,6 +56,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        user = new User();
     }
 
     /**
@@ -53,25 +65,27 @@ public class Game
     private void createRooms()
     {
         //Initalize items and settings by JG
-        Items book = new Items("book");
-        book.setWeight(25); // out of 100
-        Command readMap = new Command("read", "book");
-        book.setPermissions(readMap);
+        roomsVisited = new ArrayList<Room>();
 
-        Items key = new Items("key");
+        map = new Items("map");
+        map.setWeight(25); // out of 100
+        Command readMap = new Command("read", "map");
+        map.setPermissions(readMap);
+
+        key = new Items("key");
         key.setWeight(5); // out of 100
 
-        Items food = new Items("food");
+        food = new Items("food");
         food.setWeight(10); // out of 100
         Command eat = new Command("eat", "food");
         food.setPermissions(eat);
 
-        Items closet = new Items("closet");
+        closet = new Items("closet");
         closet.setWeight(101); // out of 100
         Command search = new Command("search", "closet");
         closet.setPermissions(search);
 
-        Items hint = new Items("piece of paper");
+        hint = new Items("piece of paper");
         hint.setWeight(5); // out of 100
         Command readHint = new Command("read", "piece of paper");
         hint.setPermissions(readHint);
@@ -103,13 +117,12 @@ public class Game
 
         // initialise room exits and items in room
         masterBedroom.setExit("east", study);
-        masterBedroom.setItem(book);
         masterBedroom.setItem(closet);
 
         study.setExit("west", masterBedroom);
         study.setExit("south", library);        
         study.setExit("east", livingRoom);
-        study.setItem(book);
+        study.setItem(map);
 
         livingRoom.setExit("west", study);
         livingRoom.setExit("south", diningRoom);
@@ -141,6 +154,7 @@ public class Game
         wineCellar.setExit("west",dungeon);
 
         currentRoom = dungeon;  // start game in dungeon
+        roomsVisited.add(dungeon);
     }
 
     /**
@@ -149,7 +163,6 @@ public class Game
     public void play() 
     {            
         printWelcome();
-
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over
         boolean finished = false;
@@ -197,23 +210,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            if (currentRoom.isLocked){
-                System.out.println("You try to open the door but find that it is locked!");
-                System.out.println("You notice a number pad next to the door.");
-                System.out.println("Enter Passcode: ");
-                int code= parser.getInt();
-                if (code == 1492){
-                    System.out.println("User Verified");
-                    goRoom(command);
-                    currentRoom.setIsLocked(false);
-                }
-                else{
-                    System.out.println("Incorrect");
-                }
-            }
-            else{
-                goRoom(command);
-            }
+            goRoom(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -222,19 +219,24 @@ public class Game
             //go to previous room (either store info or reference room class)
         }
         else if (commandWord.equals("pick up")) {
-            //add item to user weight and inventory for other commands like open
+            //this doesnt have much use yet, except for key object.
             if (this.user.inventoryIsFull){
                 System.out.println("Cannot pick up item. Inventory is full");
             }
             else{
+                //add item to user weight and inventory for other commands like open,
             }
         }
         else if (commandWord.equals("eat")) {
+            System.out.println("You eat the food, but quickly feel sick. It seems that it was poisoned");
+            user.makeSick();
+            user.weight += food.getWeight();
+            System.out.println("If you do not find the antidote soon you will die!"); 
             // print you are sick, the food was poisoned
             //change user so that they die unless they find medicine in 3 steps 
         }
         else if (commandWord.equals("read")) {
-            if (command.getSecondWord().equals("map")){
+            if (command.getSecondWord().equals("map")){ //error can always open map
                 System.out.println("____________________________________________________________|exit|___");
                 System.out.println("|                |                |                |                |");
                 System.out.println("|     master     |     study      |     living     |    entrance    |");
@@ -294,29 +296,71 @@ public class Game
      * Try to go to one direction. If there is an exit, enter the new
      * room, otherwise print an error message.
      */
-    private void goRoom(Command command) 
+    private void goRoom(Command command)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
-            if (currentRoom==outside)
-            {
-                winCondition();
+        if (currentRoom.isLocked){
+            System.out.println("You try to open the door but find that it is locked!");
+            System.out.println("You notice a number pad next to the door.");
+            System.out.println("Enter Passcode: ");
+            int code= parser.getInt();
+            if (code == 1492){ //answer to riddle
+                System.out.println("User Verified");
+                currentRoom.setIsLocked(false);
+                goRoom(command);
             }
+            else{
+                System.out.println("Incorrect");
+            }
+        }
+        else{
+            System.out.println();
+            System.out.println();
+            System.out.println("Current Inventory Weight: "+user.weight);
+            roomsVisited.add(currentRoom);
+            if(Math.random()<(1/CONDITION))
+            {
+                user.makeSick();
+            }
+            if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("Go where?");
+                return;
+            }
+            String direction = command.getSecondWord();
+            // Try to leave current room.
+            Room nextRoom = currentRoom.getExit(direction);
+            currentRoom.setExit("back",roomsVisited.get(roomsVisited.size()-2));
+            if (nextRoom == null) {
+                System.out.println("There is no door!");
+            }
+            else {
+                currentRoom = nextRoom;
+                System.out.println(currentRoom.getLongDescription());
+                if (currentRoom==outside)
+                {
+                    endGame("win");
+                }
+            }
+            if(user.isSick)
+            {
+                System.out.println("You have " +  user.timeLeft + " turns left to find medicine before you die!");
+                user.timeLeft--;
+                if(user.timeLeft<0)
+                {
+                    System.out.println("You have died of sickness!");
+                    endGame("lose");
+                }
+            }
+        }
+    }
+
+    private void endGame(String condition)
+    {
+        if (condition.equals("win")){
+            System.out.println("You win!");
+        }
+        else{
+            System.out.println("You lose!");
         }
     }
 
@@ -334,10 +378,5 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
-    }
-
-    private void winCondition()
-    {
-        System.out.println("You win!");
     }
 }

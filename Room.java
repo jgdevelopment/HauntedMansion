@@ -51,6 +51,11 @@ public class Room
         this.items.add(item);
     }
 
+    public void removeItem(Items item) // possibly change to array list
+    {
+        this.items.remove(item);
+    }
+
     public void setIsLocked(boolean value){
         this.isLocked = value;
     }
