@@ -21,7 +21,7 @@ public class Command
 {
     private String commandWord;
     private String secondWord;
-
+    private Room currentRoom;
     /**
      * Create a command object. First and second word must be supplied, but
      * either one (or both) can be null.
@@ -53,6 +53,8 @@ public class Command
     {
         return secondWord;
     }
+
+    
 
     /**
      * @return true if this command was not understood.

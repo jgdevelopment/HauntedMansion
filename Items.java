@@ -10,14 +10,14 @@ public class Items
     // instance variables - 
     public String description;
     public int weight;
-    private ArrayList<String> permissions;
+    public ArrayList<Command> permissions;
     /**
      * Constructor for objects of class Items
      */
     public Items(String description)
     {
         // initialise instance variables
-        permissions = new ArrayList<String>();
+        permissions = new ArrayList<Command>();
         this.description = description;
         Command pickUp = new Command("pick up", this.description);
         this.setPermissions(pickUp);
@@ -25,13 +25,12 @@ public class Items
     public void setPermissions(Command command)
     {
         // initialise instance variables
-        String commandWord = command.getCommandWord();
-        this.permissions.add(commandWord);
+        this.permissions.add(command);
     }
     public void setWeight(int weightInput){
         this.weight = weight;
     }
-    public ArrayList<String> getPermission(){
+    public ArrayList<Command> getPermission(){
         return this.permissions;
     }
     public int getWeight(){

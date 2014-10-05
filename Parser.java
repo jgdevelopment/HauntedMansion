@@ -1,6 +1,6 @@
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
+import java.util.regex.*;
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -21,6 +21,9 @@ public class Parser
 {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
+    private String word1;
+    private String word2;
+    private Room currentRoom;
 
     /**
      * Create a parser to read from the terminal window.
@@ -37,8 +40,8 @@ public class Parser
     public Command getCommand() 
     {
         String inputLine;   // will hold the full input line
-        String word1 = null;
-        String word2 = null;
+        word1 = null;
+        word2 = null;
 
         System.out.print("> ");     // print prompt
 
@@ -48,8 +51,9 @@ public class Parser
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
+
             if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
+                word2 = tokenizer.next();
                 // note: we just ignore the rest of the input line.
             }
         }
@@ -70,11 +74,26 @@ public class Parser
         return inputLine;
     }
 
+    public Items getCommandItem(){
+        if (currentRoom!=null){
+            if (word2!=null&&!word1.equals("go")){
+                for (Items item: currentRoom.items){
+                    if (word2.equals(item.description)){
+                        return item;
+                    }
+                }
+                return null;
+            }
+        }
+        return null;
+    }
+
     /**
      * Print out a list of valid command words.
      */
     public void showCommands()
     {
         commands.showAll();
+
     }
 }
