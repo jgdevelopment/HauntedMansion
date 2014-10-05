@@ -27,7 +27,7 @@ public class Items
         // initialise instance variables
         this.permissions.add(command);
     }
-    public void setWeight(int weightInput){
+    public void setWeight(int weight){
         this.weight = weight;
     }
     public ArrayList<Command> getPermission(){
