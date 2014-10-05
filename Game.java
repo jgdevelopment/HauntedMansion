@@ -206,21 +206,24 @@ public class Game
             }
         }
 
-        else if (item==null&&!commandWord.equals("help")&&!commandWord.equals("quit")){
-            System.out.println("That is not an object.");
-            return false;
-        }
-        else{
-            if (item.permissions.contains(command)){
-                System.out.println("You cannot use that command with this object");
-                return false;
-            }
+        else if (item==null){
             if (commandWord.equals("help")) {
                 printHelp();
             }
             else if (commandWord.equals("quit")) {
                 wantToQuit = quit(command);
             }
+            else{
+                System.out.println("That is not an object.");
+                return false;
+            }
+        }
+        else{
+            if (item.permissions.contains(command)){
+                System.out.println("You cannot use that command with this object");
+                return false;
+            }
+
             else if (commandWord.equals("pick up")) {
                 pickUp(item);
             }
