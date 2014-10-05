@@ -222,7 +222,7 @@ public class Game
                 wantToQuit = quit(command);
             }
             else if (commandWord.equals("pick up")) {
-                pickUp();
+                pickUp(item);
             }
             else if (commandWord.equals("eat")) {
                 eat();
@@ -270,13 +270,13 @@ public class Game
         System.out.println("                 |________________|________________|");
     }
 
-    private void pickUp(){
+    private void pickUp(Items item){
         if (this.user.inventoryIsFull){
             System.out.println("Cannot pick up item. Inventory is full");
         }
         else{
             //add item to user weight and inventory for other commands like open,
-            //user.weight+=item.weight;
+            user.addItem(item);
         }
     }
 
@@ -346,6 +346,7 @@ public class Game
         nextRoom.setExit("back",roomsVisited.get(roomsVisited.size()-1));
         currentRoom = nextRoom;
         System.out.println(currentRoom.getLongDescription());
+        System.out.println("Current Inventory Items: "+user.getInventoryItems());
         System.out.println("Current Inventory Weight: "+user.weight);
         if (currentRoom==outside)
         {

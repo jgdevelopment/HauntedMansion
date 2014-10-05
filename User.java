@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.ArrayList;
 /**
  * class User holds the inventory of the User. we also might update it in order to facilitate
  * iteraction with characters.
@@ -15,6 +16,7 @@ public class User
     public boolean isSick;
     public boolean inventoryIsFull;
     public int timeLeft;
+    public ArrayList<Items> inventory;
 
     /**
      * Constructor for objects of class User
@@ -27,6 +29,7 @@ public class User
 
     public void addItem(Items item){
         this.weight += item.weight;
+        inventory.add(item);
         if (this.weight< INVENTORY_CAPACITY){
             this.weight -=item.weight;
             this.inventoryIsFull = true;
@@ -37,6 +40,15 @@ public class User
     {
         this.isSick=true;
         this.timeLeft=3;
+    }
+
+    public String getInventoryItems()
+    {
+        String inventoryString = "";
+        for (Items item: inventory){
+            inventoryString+=" "+item.description;
+        }
+        return inventoryString;
     }
 
     public void makeWell()
