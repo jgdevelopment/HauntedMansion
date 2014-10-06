@@ -24,7 +24,7 @@ public class Room
     public boolean isLocked;
     private String lockedDirection;
     public ArrayList<Character> characters;
-    private String characterString;
+    public String characterString;
 
     /**
      * Create a room described "description". Initially, it has
@@ -35,7 +35,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        this.characterString ="";
+        this.characterString = " no characters";
         exits = new HashMap<String, Room>();
         items = new ArrayList<Items>();
         characters = new ArrayList<Character>();
@@ -93,6 +93,15 @@ public class Room
         return description;
     }
 
+    public String getCharacterDescription()
+    {
+        for (Character character: this.characters){
+            this.characterString ="";
+            this.characterString+= " "+character.getDescription();
+        }
+        return this.characterString;
+    }
+
     /**
      * Return a description of the room in the form:
      *     You are in the kitchen.
@@ -113,16 +122,6 @@ public class Room
     {
         return this.characters;
     }    
-
-    public String getCharacterDescription(){
-        for (Character character: this.characters){
-            this.characterString+= " "+character.getDescription();
-        }
-        if (this.characterString==""){
-             this.characterString = " no characters";
-        }
-        return this.characterString;
-    }
 
     /**
      * Return a string describing the room's exits, for example
