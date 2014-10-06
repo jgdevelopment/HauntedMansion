@@ -419,7 +419,6 @@ public class Game
         System.out.println("Current Inventory Items: "+user.getInventoryItems());
         System.out.println("Current Inventory Weight: "+user.weight);
         System.out.println("Characters in room:"+currentRoom.getCharacterDescription());
-
         if (currentRoom==outside)
         {
             endGame("win");
