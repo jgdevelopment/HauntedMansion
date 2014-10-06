@@ -44,6 +44,8 @@ public class Game
 
     Character ogre, wizard;
 
+    private String characterDescription;
+
     boolean usedKey;
 
     Items map,
@@ -75,14 +77,12 @@ public class Game
         ogre = new Character(
             "ogre",
             "What's up",
-            "The sky",
-            30);
+            "The sky");
 
         wizard = new Character(
             "wizard",
             "What is the Answer to the Ultimate Question of Life, The Universe, and Everything",
-            "42",
-            60);
+            "42");
 
         usedKey = false;
 
@@ -137,6 +137,7 @@ public class Game
         livingRoom.setExit("south", diningRoom);
         livingRoom.setExit("east", entranceHall);
         livingRoom.setCharacter(wizard);
+        livingRoom.characterString = livingRoom.getCharacterDescription();
 
         entranceHall.setExit("west", livingRoom);
         entranceHall.setExit("north", outside);
@@ -159,6 +160,7 @@ public class Game
 
         drawingRoom.setExit("west",kitchen);
         drawingRoom.setCharacter(ogre);
+        drawingRoom.characterString = drawingRoom.getCharacterDescription();
 
         dungeon.setExit("east",wineCellar);
         dungeon.setItem(hint);
@@ -192,6 +194,7 @@ public class Game
      */
     private void printWelcome()
     {
+        System.out.println("************************************************");
         System.out.println();
         System.out.println("Welcome to the Haunted Mansion!");
         System.out.println("You wake up with a headache and a sharp pain in your arm.");
@@ -204,7 +207,6 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
         System.out.println();
         System.out.println("Type 'help' if you need help.");
-
     }
 
     /**
@@ -282,7 +284,6 @@ public class Game
                     System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
                     System.out.println("Maybe it will be useful later.");
                 }
-
             }
         }
         // else command not recognised.
@@ -316,15 +317,16 @@ public class Game
         }
         else{
             //add item to user weight and inventory for other commands like open,
+            user.addItem(item);            
             System.out.println(item.description+" added to inventory");
-            user.addItem(item);
+            System.out.println("Current Inventory Weight: "+user.weight);
         }
     }
 
     private void talk(Character character)
     {
         System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
-        System.out.println("The" + character.getDescription() + " replies: '"+character.getResponse());        
+        System.out.println("The " + character.getDescription() + " replies: '"+character.getResponse());        
     }
 
     private void use(){
@@ -375,6 +377,10 @@ public class Game
                 }
                 else{
                     System.out.println("Incorrect code.");
+                    if (code==0){
+                        System.out.print("passcode must be a 4-digit PIN");
+                        System.out.println();
+                    }
                     return false;
                 }
             }
@@ -415,15 +421,19 @@ public class Game
         roomsVisited.add(currentRoom);
         nextRoom.setExit("back",roomsVisited.get(roomsVisited.size()-1));
         currentRoom = nextRoom;
-        System.out.println(currentRoom.getLongDescription());
-        System.out.println("Current Inventory Items: "+user.getInventoryItems());
-        System.out.println("Current Inventory Weight: "+user.weight);
-        System.out.println("Characters in room:"+currentRoom.getCharacterDescription());
+        printStats();
         if (currentRoom==outside)
         {
             endGame("win");
         }
         updateHealth();
+    }
+
+    private void printStats(){
+        System.out.println("************************************************");
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println("Current Inventory Items: "+user.getInventoryItems());
+        System.out.println("Characters in room:"+currentRoom.characterString);
     }
 
     private void updateHealth(){

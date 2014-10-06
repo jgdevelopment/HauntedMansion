@@ -55,7 +55,6 @@ public class Parser
                 // note: we just ignore the rest of the input line.
             }
         }
-
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
@@ -68,8 +67,15 @@ public class Parser
 
     public int getInt(){
         int inputLine;   // will hold the full input line
-        inputLine = reader.nextInt();
-        return inputLine;
+        if (reader.hasNextInt()){
+            inputLine = reader.nextInt();
+            reader.nextLine();
+            return inputLine;
+        }
+        else{
+            reader.nextLine();
+            return inputLine = 0;//arbitrary number to print error for entering a string
+        }
     }
 
     public Items getCommandItem(){
@@ -94,6 +100,5 @@ public class Parser
     public void showCommands()
     {
         commands.showAll();
-
     }
 }

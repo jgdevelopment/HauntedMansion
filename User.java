@@ -53,7 +53,7 @@ public class User
 
     public String getInventoryItems()
     {
-        String inventoryString = "";
+        String inventoryString = "empty";
         for (Items item: inventory){
             inventoryString+=" "+item.description;
         }

@@ -23,23 +23,23 @@ public class Character
     public String description;
     public String question;
     public String response;
-    public int hitPoints;
-    private boolean aliveQuestion=true;
+    //     public int hitPoints;
+    //     private boolean aliveQuestion=true;
     public ArrayList<Command> permissions;
 
-    public Character(String description, String question, String response, int hitPoints)
+    public Character(String description, String question, String response) //, int hitPoints
     {
         permissions = new ArrayList<Command>();
 
         this.description = description;
         this.question = question;
         this.response = response;
-        this.hitPoints = hitPoints;
-
-        Command fight = new Command("fight", this.description);
+        //         this.hitPoints = hitPoints;
+        // 
+        //         Command fight = new Command("fight", this.description);
         Command talk = new Command("talk", this.description);
 
-        this.setPermissions(fight);
+        //         this.setPermissions(fight);
         this.setPermissions(talk);
     }
 
@@ -68,18 +68,18 @@ public class Character
         return this.response;
     }
 
-    public int getHitPoints()
-    {
-        return this.hitPoints;
-    }
-
-    public void kill()
-    {
-        aliveQuestion=false;
-    }
-
-    public boolean isAlive()
-    {
-        return aliveQuestion;
-    }
+    //     public int getHitPoints()
+    //     {
+    //         return this.hitPoints;
+    //     }
+    // 
+    //     public void kill()
+    //     {
+    //         aliveQuestion=false;
+    //     }
+    // 
+    //     public boolean isAlive()
+    //     {
+    //         return aliveQuestion;
+    //     }
 }
