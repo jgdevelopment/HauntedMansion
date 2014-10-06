@@ -119,7 +119,7 @@ public class Room
             this.characterString+= " "+character.getDescription();
         }
         if (this.characterString==""){
-             this.characterString = " No Characters";
+             this.characterString = " no characters";
         }
         return this.characterString;
     }

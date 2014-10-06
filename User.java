@@ -64,5 +64,6 @@ public class User
     {
         this.isSick=false;
         this.timeLeft=0;
+        System.out.println("The medicine seems to have worked. You feel much better");
     }
 }

@@ -50,6 +50,7 @@ public class Game
     key,
     food,
     closet,
+    medicine,
     hint;
 
     private static int CONDITION=20;
@@ -100,6 +101,11 @@ public class Game
         Command eat = new Command("eat", "food");
         food.setPermissions(eat);
 
+        medicine = new Items("medicine");
+        medicine.setWeight(10); // out of 100
+        Command drink = new Command("drink", "medicine");
+        medicine.setPermissions(drink);
+
         hint = new Items("clue");
         hint.setWeight(5); // out of 100
         Command readHint = new Command("read", "clue");
@@ -140,6 +146,7 @@ public class Game
 
         library.setExit("north", study);
         library.setExit("east", diningRoom);
+        library.setItem(medicine);
 
         diningRoom.setExit("north", livingRoom);
         diningRoom.setExit("west", library);
@@ -267,8 +274,15 @@ public class Game
             else if (commandWord.equals("drop")) {
                 drop(item);
             }
-            else if (commandWord.equals("swallow")) {
-                //swallow pill for antidote
+            else if (commandWord.equals("drink")) {
+                if (user.isSick){
+                    user.makeWell();
+                }
+                else{
+                    System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
+                    System.out.println("Maybe it will be useful later.");
+                }
+
             }
         }
         // else command not recognised.
