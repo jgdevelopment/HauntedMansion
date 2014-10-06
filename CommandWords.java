@@ -15,7 +15,7 @@ public class CommandWords
     private static final String[] validCommands = {
             "go", "quit", "help", 
             "add", "eat",
-            "read", "search",
+            "read", "use", "search",
             "drop"
         };
 

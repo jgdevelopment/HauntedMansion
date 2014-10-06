@@ -22,6 +22,7 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     public ArrayList<Items> items;
     public boolean isLocked;
+    public String lockedDirection;
 
     /**
      * Create a room described "description". Initially, it has
@@ -56,8 +57,13 @@ public class Room
         this.items.remove(item);
     }
 
-    public void setIsLocked(boolean value){
+    public void setIsLocked(boolean value, String direction){
         this.isLocked = value;
+        this.lockedDirection = direction;
+    }
+
+    public String getLockedDirection(){
+        return this.lockedDirection;
     }
 
     public String getItemsString() 

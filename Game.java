@@ -42,6 +42,8 @@ public class Game
     nextRoom,
     drawingRoom;
 
+    boolean usedKey;
+
     Items map,
     key,
     food,
@@ -68,6 +70,8 @@ public class Game
         //Initalize items and settings by JG
         roomsVisited = new ArrayList<Room>();
 
+        usedKey = false;
+
         map = new Items("map");
         map.setWeight(25); // out of 100
         Command readMap = new Command("read", "map");
@@ -75,16 +79,13 @@ public class Game
 
         key = new Items("key");
         key.setWeight(5); // out of 100
+        Command use = new Command("use", "food");
+        key.setPermissions(use);
 
         food = new Items("food");
         food.setWeight(10); // out of 100
         Command eat = new Command("eat", "food");
         food.setPermissions(eat);
-
-        closet = new Items("closet");
-        closet.setWeight(101); // out of 100
-        Command search = new Command("search", "closet");
-        closet.setPermissions(search);
 
         hint = new Items("clue");
         hint.setWeight(5); // out of 100
@@ -119,6 +120,7 @@ public class Game
 
         entranceHall.setExit("west", livingRoom);
         entranceHall.setExit("north", outside);
+        entranceHall.setIsLocked(true, "north");
 
         outside.setExit("south", entranceHall);
 
@@ -137,7 +139,7 @@ public class Game
         drawingRoom.setExit("west",kitchen);
         dungeon.setExit("east",wineCellar);
         dungeon.setItem(hint);
-        dungeon.setIsLocked(true);
+        dungeon.setIsLocked(true, "east");
 
         wineCellar.setExit("north",kitchen);
         wineCellar.setExit("west",dungeon);
@@ -238,11 +240,8 @@ public class Game
                     System.out.println("the ocean blue");
                 }
             }
-            else if (commandWord.equals("search")) {
-                // prints if anything was found or if there is nothing there
-                // if there is something found it asks user if they want to add it to inventory
-                // weight of added object is added to user (done though item and user classes)
-                // item is added to 
+            else if (commandWord.equals("use")) {
+                use();
             }
             else if (commandWord.equals("drop")) {
                 drop(item);
@@ -287,6 +286,11 @@ public class Game
         }
     }
 
+    private void use( ){
+        usedKey = true;
+        System.out.println("You insert the key. Now try to open the door.");
+    }
+
     private void drop(Items item){
         System.out.println(item.description+" removed from inventory");
         user.removeItem(item);
@@ -317,19 +321,32 @@ public class Game
     }
 
     private boolean checkLockedDoor(){
-        if (currentRoom.isLocked){
-            System.out.println("You try to open the door but find that it is locked!");
-            System.out.println("You notice a 4 digit PIN number pad next to the door.");
-            System.out.println("Enter Passcode: ");
-            int code= parser.getInt();
-            if (code == 1492){ //answer to riddle
-                System.out.println("You have unlocked the door. You proceed into the next room.");
-                currentRoom.setIsLocked(false);
-                return true;
+        if (currentRoom.isLocked && direction.equals(currentRoom.getLockedDirection())){
+            if (currentRoom == dungeon){
+                System.out.println("You try to open the door but find that it is locked!");
+                System.out.println("You notice a 4 digit PIN number pad next to the door.");
+                System.out.println("Enter Passcode: ");
+                int code= parser.getInt();
+                if (code == 1492){ //answer to riddle
+                    System.out.println("You have unlocked the door. You proceed into the next room.");
+                    currentRoom.setIsLocked(false, "east");
+                    return true;
+                }
+                else{
+                    System.out.println("Incorrect code.");
+                    return false;
+                }
             }
-            else{
-                System.out.println("Incorrect code.");
-                return false;
+            else if (currentRoom == entranceHall){
+                if (usedKey){ //answer to riddle
+                    System.out.println("You have unlocked the door. You escape outside.");
+                    currentRoom.setIsLocked(false, "north");
+                    return true;
+                }
+                else{
+                    System.out.println("Cannot open door. It seems to be locked.");
+                    return false;
+                }
             }
         }
         return true;
