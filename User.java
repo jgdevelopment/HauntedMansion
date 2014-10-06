@@ -16,7 +16,7 @@ public class User
     public boolean isSick;
     public boolean inventoryIsFull;
     public int timeLeft;
-    public ArrayList<Items> inventory;
+    public static ArrayList<Items> inventory;
 
     /**
      * Constructor for objects of class User
@@ -25,14 +25,23 @@ public class User
     {
         this.weight = 0;
         this.inventoryIsFull = false;
+        inventory = new ArrayList<Items>();
     }
 
     public void addItem(Items item){
         this.weight += item.weight;
         inventory.add(item);
-        if (this.weight< INVENTORY_CAPACITY){
+        if (this.weight> INVENTORY_CAPACITY){
             this.weight -=item.weight;
             this.inventoryIsFull = true;
+        }    
+    }
+
+    public void removeItem(Items item){
+        this.weight -= item.weight;
+        inventory.remove(item);
+        if (this.weight< INVENTORY_CAPACITY){
+            this.inventoryIsFull = false;
         }    
     }
 

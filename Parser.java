@@ -80,6 +80,11 @@ public class Parser
                     return item;
                 }
             }
+            for (Items item: User.inventory){
+                if (word2.equals(item.description)){
+                    return item;
+                }
+            }
         }
         return null;
     }

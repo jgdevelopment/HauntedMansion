@@ -224,7 +224,7 @@ public class Game
                 return false;
             }
 
-            else if (commandWord.equals("pick up")) {
+            else if (commandWord.equals("add")) {
                 pickUp(item);
             }
             else if (commandWord.equals("eat")) {
@@ -245,7 +245,10 @@ public class Game
                 // item is added to 
             }
             else if (commandWord.equals("drop")) {
-
+                drop(item);
+            }
+            else if (commandWord.equals("pill")) {
+                //swallow pill for antidote
             }
         }
         // else command not recognised.
@@ -279,8 +282,14 @@ public class Game
         }
         else{
             //add item to user weight and inventory for other commands like open,
+            System.out.println(item.description+" added to inventory");
             user.addItem(item);
         }
+    }
+
+    private void drop(Items item){
+        System.out.println(item.description+" removed from inventory");
+        user.removeItem(item);
     }
 
     private void eat(){
