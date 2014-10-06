@@ -302,7 +302,7 @@ public class Game
         }
     }
 
-    public void talk(Character character)
+    private void talk(Character character)
     {
         System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
         System.out.println("The" + character.getDescription() + " replies: '"+".'");        
