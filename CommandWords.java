@@ -16,7 +16,7 @@ public class CommandWords
             "go", "quit", "help", 
             "add", "eat",
             "read", "use", "search",
-            "drop"
+            "drop", "talk", "fight"
         };
 
     /**

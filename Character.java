@@ -1,33 +1,85 @@
-
+import java.util.ArrayList;
 /**
- * Write a description of class Character here.
+ * Character class written by Adam Shaw, with inspiration from JG's item class.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * initializes characters with a preset conversation that they can engage in
+ * with the game player. the format of the conversation is that the 
+ * player asks the character a question unique to that character,
+ * and the character responds with an answer unique to the character.
+ * 
+ * Each character also has a set number of hitpoints, and the user can fight
+ * him/her if the user chooses to do so.
+ * 
+ * *** though for now, characters must stay in one room,
+ * *** a future update to the game might include the characters
+ * *** being able to move from room to room!
+ * 
+ * @author Adam Shaw 
+ * @version 2.1
  */
 public class Character
-{
-    // instance variables - replace the example below with your own
-    private int x;
 
-    /**
-     * Constructor for objects of class Character
-     */
-    public Character()
+{
+    public String description;
+    public String question;
+    public String response;
+    public int hitPoints;
+    private boolean aliveQuestion=true;
+    public ArrayList<Command> permissions;
+
+    public Character(String description, String question, String response, int hitPoints)
     {
-        // initialise instance variables
-        x = 0;
+        permissions = new ArrayList<Command>();
+
+        this.description = description;
+        this.question = question;
+        this.response = response;
+        this.hitPoints = hitPoints;
+
+        Command fight = new Command("fight", this.description);
+        Command talk = new Command("talk", this.description);
+
+        this.setPermissions(fight);
+        this.setPermissions(talk);
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
-     */
-    public int sampleMethod(int y)
+    public void setPermissions(Command command)
     {
-        // put your code here
-        return x + y;
+        // initialise instance variables
+        this.permissions.add(command);
+    }
+
+    public ArrayList<Command> getPermission(){
+        return this.permissions;
+    }
+
+    public String getDescription()
+    {
+        return this.description;
+    }
+
+    public String getQuestion()
+    {
+        return this.question;
+    }
+
+    public String getResponse()
+    {
+        return this.response;
+    }
+
+    public int getHitPoints()
+    {
+        return this.hitPoints;
+    }
+
+    public void kill()
+    {
+        aliveQuestion=false;
+    }
+
+    public boolean isAlive()
+    {
+        return aliveQuestion;
     }
 }

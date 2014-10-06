@@ -1,8 +1,20 @@
 #BlueJ class context
-comment0.params=
-comment0.target=Character()
-comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Character\n
-comment1.params=y
-comment1.target=int\ sampleMethod(int)
-comment1.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\ \n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \n
-numComments=2
+comment0.params=description\ question\ response\ hitPoints
+comment0.target=Character(java.lang.String,\ java.lang.String,\ java.lang.String,\ int)
+comment1.params=command
+comment1.target=void\ setPermissions(Command)
+comment2.params=
+comment2.target=java.util.ArrayList\ getPermission()
+comment3.params=
+comment3.target=java.lang.String\ getDescription()
+comment4.params=
+comment4.target=java.lang.String\ getQuestion()
+comment5.params=
+comment5.target=java.lang.String\ getResponse()
+comment6.params=
+comment6.target=int\ getHitPoints()
+comment7.params=
+comment7.target=void\ kill()
+comment8.params=
+comment8.target=boolean\ isAlive()
+numComments=9

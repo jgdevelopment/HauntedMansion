@@ -23,6 +23,7 @@ public class Room
     public ArrayList<Items> items;
     public boolean isLocked;
     public String lockedDirection;
+    public ArrayList<Character> characters;
 
     /**
      * Create a room described "description". Initially, it has
@@ -35,6 +36,7 @@ public class Room
         this.description = description;
         exits = new HashMap<String, Room>();
         items = new ArrayList<Items>();
+        characters = new ArrayList<Character>();
     }
 
     /**
@@ -99,6 +101,11 @@ public class Room
     {
         return "\nYou are " + description + ".\n" + getExitString()+ ".\n" + getItemsString();
     }
+
+    public void setCharacter(Character character) // possibly change to array list
+    {
+        this.characters.add(character);
+    }    
 
     /**
      * Return a string describing the room's exits, for example

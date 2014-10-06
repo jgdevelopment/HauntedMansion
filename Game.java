@@ -42,6 +42,8 @@ public class Game
     nextRoom,
     drawingRoom;
 
+    Character ogre, wizard;
+
     boolean usedKey;
 
     Items map,
@@ -69,6 +71,17 @@ public class Game
     {
         //Initalize items and settings by JG
         roomsVisited = new ArrayList<Room>();
+        ogre = new Character(
+            "ogre",
+            "What's up",
+            "The sky",
+            30);
+
+        wizard = new Character(
+            "wizard",
+            "What is the Answer to the Ultimate Question of Life, The Universe, and Everything",
+            "42",
+            60);
 
         usedKey = false;
 
@@ -117,6 +130,7 @@ public class Game
         livingRoom.setExit("west", study);
         livingRoom.setExit("south", diningRoom);
         livingRoom.setExit("east", entranceHall);
+        livingRoom.setCharacter(wizard);
 
         entranceHall.setExit("west", livingRoom);
         entranceHall.setExit("north", outside);
@@ -137,6 +151,8 @@ public class Game
         kitchen.setItem(food);
 
         drawingRoom.setExit("west",kitchen);
+        drawingRoom.setCharacter(ogre);
+
         dungeon.setExit("east",wineCellar);
         dungeon.setItem(hint);
         dungeon.setIsLocked(true, "east");
@@ -246,7 +262,7 @@ public class Game
             else if (commandWord.equals("drop")) {
                 drop(item);
             }
-            else if (commandWord.equals("pill")) {
+            else if (commandWord.equals("s")) {
                 //swallow pill for antidote
             }
         }
@@ -286,7 +302,14 @@ public class Game
         }
     }
 
-    private void use( ){
+    public void talk(Character character)
+    {
+        System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
+        System.out.println("The" + character.getDescription() + " replies: '"+".'");        
+        System.out.println(character.getResponse());        
+    }
+
+    private void use(){
         usedKey = true;
         System.out.println("You insert the key. Now try to open the door.");
     }
