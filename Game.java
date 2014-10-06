@@ -120,7 +120,7 @@ public class Game
 
         // initialise room exits and items in room
         masterBedroom.setExit("east", study);
-        masterBedroom.setItem(closet);
+        masterBedroom.setItem(key);
 
         study.setExit("west", masterBedroom);
         study.setExit("south", library);        
@@ -223,6 +223,11 @@ public class Game
                 }
             }
         }
+        else if  (commandWord.equals("talk")){
+            for (Character character: currentRoom.characters){
+                talk(character);
+            }
+        }
 
         else if (item==null){
             if (commandWord.equals("help")) {
@@ -262,7 +267,7 @@ public class Game
             else if (commandWord.equals("drop")) {
                 drop(item);
             }
-            else if (commandWord.equals("s")) {
+            else if (commandWord.equals("swallow")) {
                 //swallow pill for antidote
             }
         }
@@ -305,8 +310,7 @@ public class Game
     private void talk(Character character)
     {
         System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
-        System.out.println("The" + character.getDescription() + " replies: '"+".'");        
-        System.out.println(character.getResponse());        
+        System.out.println("The" + character.getDescription() + " replies: '"+character.getResponse());        
     }
 
     private void use(){
@@ -400,6 +404,8 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
         System.out.println("Current Inventory Items: "+user.getInventoryItems());
         System.out.println("Current Inventory Weight: "+user.weight);
+        System.out.println("Characters in room:"+currentRoom.getCharacterDescription());
+
         if (currentRoom==outside)
         {
             endGame("win");

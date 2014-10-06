@@ -43,7 +43,6 @@ public class Parser
         word2 = null;
 
         System.out.print("> ");     // print prompt
-
         inputLine = reader.nextLine();
 
         // Find up to two words on the line.

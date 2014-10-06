@@ -54,8 +54,6 @@ public class Command
         return secondWord;
     }
 
-    
-
     /**
      * @return true if this command was not understood.
      */
