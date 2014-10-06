@@ -217,7 +217,6 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-        System.out.println(command.getCommandWord());
         if(command.isUnknown()){
             System.out.println("I don't know what you mean...");
             return false;
@@ -285,7 +284,6 @@ public class Game
                     System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
                     System.out.println("Maybe it will be useful later.");
                 }
-
             }
         }
         // else command not recognised.
@@ -328,7 +326,7 @@ public class Game
     private void talk(Character character)
     {
         System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
-        System.out.println("The" + character.getDescription() + " replies: '"+character.getResponse());        
+        System.out.println("The " + character.getDescription() + " replies: '"+character.getResponse());        
     }
 
     private void use(){
@@ -379,6 +377,10 @@ public class Game
                 }
                 else{
                     System.out.println("Incorrect code.");
+                    if (code==0){
+                        System.out.print("passcode must be a 4-digit PIN");
+                        System.out.println();
+                    }
                     return false;
                 }
             }
