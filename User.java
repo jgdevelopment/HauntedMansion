@@ -18,7 +18,7 @@ public class User
     public int timeLeft;
     public static ArrayList<Items> inventory;
     private String inventoryString;
-    
+
     /**
      * Constructor for objects of class User
      */
@@ -31,12 +31,22 @@ public class User
     }
 
     public void addItem(Items item){
-        this.weight += item.weight;
+        if (this.inventory!=null){
+            for (Items inventoryItem: this.inventory){
+                if (item.description.equals(inventoryItem.description)){
+                    System.out.println("Item already added to inventory");
+                    return;
+                }
+            }
+        }
         inventory.add(item);
+        this.weight += item.weight;
+        System.out.println(item.description+" added to inventory");
         if (this.weight> INVENTORY_CAPACITY){
             this.weight -=item.weight;
             this.inventoryIsFull = true;
         }    
+        
     }
 
     public void removeItem(Items item){

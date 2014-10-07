@@ -327,7 +327,6 @@ public class Game
         else{
             //add item to user weight and inventory for other commands like open,
             user.addItem(item);            
-            System.out.println(item.description+" added to inventory");
             System.out.println("Current Inventory Weight: "+user.weight);
         }
     }
@@ -339,8 +338,13 @@ public class Game
     }
 
     private void use(){
-        usedKey = true;
-        System.out.println("You insert the key. Now try to open the door.");
+        if (currentRoom==entranceHall){
+            usedKey = true;
+            System.out.println("You insert the key. Now try to open the door.");
+        }
+        else{
+            System.out.println("Go to the entrance hall.");
+        }
     }
 
     private void drop(Items item){
