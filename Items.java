@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class Items
 {
     // instance variables - 
-    public String description;
-    public int weight;
+    private String description;
+    private int weight;
+    private int anyCommand;
     private ArrayList<Command> permissions;
     /**
      * Constructor for objects of class Items
@@ -24,16 +25,44 @@ public class Items
         Command drop = new Command("drop", this.description);
         this.setPermissions(drop);
     }
-    
-    //can do command method, add permissions in item
+
     public void setPermissions(Command command)
     {
         // initialise instance variables
         this.permissions.add(command);
     }
 
+    public boolean isValidCommand(String commandWord)
+    {
+        // this integer is used to determine 
+        //if the command word matches any commands in the items permissions
+        anyCommand = 0; 
+        for (Command iterateCommand :this.permissions) 
+        {
+            if (commandWord.equals(iterateCommand.getCommandWord()))
+            {   
+                anyCommand++;
+            }
+        }
+        if (anyCommand==0) 
+        {
+            printInvalidCommand();
+            return false;
+        }
+        return true;
+    }
+
+    private void printInvalidCommand()
+    {
+        System.out.println("You cannot use that command with this object");
+    }
+
     public void setWeight(int weight){
         this.weight = weight;
+    }
+
+    public String getDescription(){
+        return this.description;
     }
 
     public ArrayList<Command> getPermission(){

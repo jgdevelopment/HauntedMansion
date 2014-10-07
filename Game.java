@@ -42,7 +42,6 @@ public class Game
     medicine,
     hint;
 
-    private int anyCommand;
     private boolean usedKey;
 
     //room initializations by Adam Shaw
@@ -184,7 +183,7 @@ public class Game
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over
         boolean finished = false;
-        while (! finished) 
+        while (!finished) 
         {
             Command command = parser.getCommand();
             finished = processCommand(command);
@@ -224,26 +223,22 @@ public class Game
         Items item = parser.getCommandItem(); //item being acted on by command change from parser to items, add ca
         if(command.isUnknown()) //first check command exists
         {
-            System.out.println("I don't know what you mean...");
+            printUnknownCommand();
             return false;
         }
         if (commandWord.equals("go")) //if command is "acting" on a direction
         {
-            direction = command.getSecondWord();
-            nextRoom = currentRoom.getExit(direction);
-            if (checkNextRoom(command,nextRoom)) //checks if direction is valid
-            {
-                if(checkLockedDoor()) // if door is unlocked, then user can proceed to next room
-                {
-                    goRoom(command);
-                }
-            }
+            proceed(command);
         }
         else if  (commandWord.equals("talk")) // if the command is acting on an a character        
         {
-            for (Character character: currentRoom.getCharacters())
-            {
+            Character character = currentRoom.getCharacterFromString(object);
+            if (character!=null){
                 talk(character);
+            }
+            else{
+                printCharacterWarning();
+                return false;
             }
         }
         else if (item==null) // if the command is not acting on an item
@@ -258,27 +253,13 @@ public class Game
             }
             else
             {
-                System.out.println("That is not an object."); 
+                printInvalidObject();
                 return false;
             }
         }
-        else // if the command is acting on an a item, first check that command can be used on object then call method for command
-        {
-            anyCommand = 0; // this integer is used to determine if the command word matches any commands in the items permissions
-            for (Command iterateCommand :item.getPermission()) //put in item  || //move to item
-            {
-                if (commandWord.equals(iterateCommand.getCommandWord()))
-                {   
-                    anyCommand++;
-                }
-            }
-            if (anyCommand==0) 
-            {
-                System.out.println("You cannot use that command with this object");
-                return false;
-            }
-
-            else if (commandWord.equals("add")) 
+        // if the command is acting on an a item, first check that command can be used on object then call method for command
+        else if (item.isValidCommand(commandWord)){
+            if (commandWord.equals("add")) 
             {
                 pickUp(item);
             }
@@ -294,7 +275,7 @@ public class Game
                 }
                 else if (command.getSecondWord().equals("clue"))
                 {
-                    System.out.println("the ocean blue");
+                    printClue();
                 }
             }
             else if (commandWord.equals("use")) 
@@ -307,15 +288,7 @@ public class Game
             }
             else if (commandWord.equals("drink")) 
             {
-                if (user.getSickCondition())
-                {
-                    user.makeWell();
-                }
-                else
-                {
-                    System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
-                    System.out.println("Maybe it will be useful later.");
-                }
+                drink();
             }
         }
         // else command not recognised.
@@ -344,6 +317,57 @@ public class Game
         System.out.println("                 |    dungeon     |      wine      |");
         System.out.println("                 |                |     cellar     |");
         System.out.println("                 |________________|________________|");
+    }
+
+    private void printClue()
+    {
+        System.out.println("the ocean blue");
+    }
+
+    private void proceed(Command command)
+    {
+        direction = command.getSecondWord();
+        nextRoom = currentRoom.getExit(direction);
+        if (checkNextRoom(command,nextRoom)) //checks if direction is valid
+        {
+            if(checkLockedDoor()) // if door is unlocked, then user can proceed to next room
+            {
+                goRoom(command);
+            }
+        }
+    }
+
+    private void printCharacterWarning()
+    {
+        System.out.println("that is not a character");
+    }
+
+    private void printUnknownCommand()
+    {
+        System.out.println("I don't know what you mean...");
+    }
+
+    private void printMedicineWarning()
+    {
+        System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
+        System.out.println("Maybe it will be useful later.");
+    }
+
+    private void printInvalidObject()
+    {
+        System.out.println("That is not an object."); 
+    }
+
+    private void drink()
+    {
+        if (user.getSickCondition())
+        {
+            user.makeWell();
+        }
+        else
+        {
+            printMedicineWarning();
+        }
     }
 
     /**
@@ -397,7 +421,7 @@ public class Game
      */
     private void drop(Items item)
     {
-        System.out.println(item.description+" removed from inventory");
+        System.out.println(item.getDescription()+" removed from inventory");
         user.removeItem(item);
     }
 
@@ -508,7 +532,7 @@ public class Game
         System.out.println("************************************************");
         System.out.println(currentRoom.getLongDescription());
         System.out.println("Current Inventory Items: "+user.getInventoryItems());
-        System.out.println("Characters in room:"+currentRoom.getCharacterDescription());
+        System.out.println("Characters in room: "+currentRoom.getCharacterDescription());
     }
 
     private void updateHealth()
@@ -516,6 +540,7 @@ public class Game
         if(Math.random()<(0.05)) //randomly get sick
         {
             user.makeSick();
+            System.out.println("You've been struck with a sudden sickness!");
         }
         if(user.getSickCondition())
         {

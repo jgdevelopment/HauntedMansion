@@ -23,7 +23,7 @@ public class Room
     private ArrayList<Items> items;
     private boolean isLocked;
     private String lockedDirection;
-    private ArrayList<Character> characters;
+    private Character character;
     private String characterString;
 
     /**
@@ -38,7 +38,6 @@ public class Room
         this.characterString = " no characters";
         exits = new HashMap<String, Room>();
         items = new ArrayList<Items>();
-        characters = new ArrayList<Character>();
     }
 
     /**
@@ -79,7 +78,7 @@ public class Room
         String returnString ="\n";
         returnString += "You see in the room:\n";
         for (Items item : this.items){
-            returnString += "\n"+item.description;
+            returnString += "\n"+item.getDescription();
         }
         if (this.items.isEmpty()){
             returnString = "";
@@ -88,8 +87,11 @@ public class Room
         return returnString;
     }
 
-    public ArrayList<Character> getCharacters(){
-        return this.characters;
+    public Character getCharacterFromString(String object){
+        if (getCharacterDescription().equals(object)){
+            return character;
+        }
+        return null;
     }
 
     /**
@@ -103,9 +105,8 @@ public class Room
 
     public String getCharacterDescription()
     {
-        for (Character character: this.characters){
-            this.characterString ="";
-            this.characterString+= " "+character.getDescription();
+        if (character!=null){
+            this.characterString= character.getDescription();
         }
         return this.characterString;
     }
@@ -123,12 +124,12 @@ public class Room
 
     public void setCharacter(Character character) 
     {
-        this.characters.add(character);
+        this.character = character;
     }    
 
-    public ArrayList<Character> getCharacter() 
+    public Character getCharacter() 
     {
-        return this.characters;
+        return this.character;
     }    
 
     /**
@@ -148,7 +149,7 @@ public class Room
 
     public Items isRoomItem(String itemString){
         for (Items item: items){
-            if (itemString.equals(item.description)){
+            if (itemString.equals(item.getDescription())){
                 return item;
             }
         }

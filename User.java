@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * class User holds the inventory of the User. we also might update it in order to facilitate
  * iteraction with characters.
  * 
- * @author Adam Shaw
+ * @author Jason Ginsberg & Adam Shaw
  * @version 2014.10.2
  */
 public class User
@@ -33,23 +33,23 @@ public class User
     public void addItem(Items item){
         if (this.inventory!=null){
             for (Items inventoryItem: this.inventory){
-                if (item.description.equals(inventoryItem.description)){
+                if (item.getDescription().equals(inventoryItem.getDescription())){
                     System.out.println("Item already added to inventory");
                     return;
                 }
             }
         }
         inventory.add(item);
-        this.weight += item.weight;
-        System.out.println(item.description+" added to inventory");
+        this.weight += item.getWeight();
+        System.out.println(item.getDescription()+" added to inventory");
         if (this.weight> INVENTORY_CAPACITY){
-            this.weight -=item.weight;
+            this.weight -=item.getWeight();
             this.inventoryIsFull = true;
         }    
     }
 
     public void removeItem(Items item){
-        this.weight -= item.weight;
+        this.weight -= item.getWeight();
         inventory.remove(item);
         if (this.weight< INVENTORY_CAPACITY){
             this.inventoryIsFull = false;
@@ -66,14 +66,15 @@ public class User
     {
         inventoryString ="";
         for (Items item: inventory){
-            inventoryString+=" "+item.description;
+            inventoryString+=" "+item.getDescription();
         }
         return inventoryString;
     }
 
-    public Items checkItemPermission(String itemWord){
+    public Items checkItemPermission(String itemWord)
+    {
         for (Items item: inventory){
-            if (itemWord.equals(item.description)){
+            if (itemWord.equals(item.getDescription())){
                 return item;
             }
         }
