@@ -20,12 +20,12 @@ import java.util.ArrayList;
 public class Character
 
 {
-    public String description;
-    public String question;
-    public String response;
+    private String description;
+    private String question;
+    private String response;
     //     public int hitPoints;
     //     private boolean aliveQuestion=true;
-    public ArrayList<Command> permissions;
+    private ArrayList<Command> permissions;
 
     public Character(String description, String question, String response) //, int hitPoints
     {
@@ -34,12 +34,14 @@ public class Character
         this.description = description;
         this.question = question;
         this.response = response;
-        //         this.hitPoints = hitPoints;
-        // 
-        //         Command fight = new Command("fight", this.description);
+
+        //unused fighting implementation
+        //this.hitPoints = hitPoints;
+        //Command fight = new Command("fight", this.description);
+        //this.setPermissions(fight);
+
         Command talk = new Command("talk", this.description);
 
-        //         this.setPermissions(fight);
         this.setPermissions(talk);
     }
 
@@ -67,7 +69,8 @@ public class Character
     {
         return this.response;
     }
-
+    
+    //unused fighting method
     //     public int getHitPoints()
     //     {
     //         return this.hitPoints;

@@ -10,7 +10,7 @@ public class Items
     // instance variables - 
     public String description;
     public int weight;
-    public ArrayList<Command> permissions;
+    private ArrayList<Command> permissions;
     /**
      * Constructor for objects of class Items
      */
@@ -24,7 +24,8 @@ public class Items
         Command drop = new Command("drop", this.description);
         this.setPermissions(drop);
     }
-
+    
+    //can do command method, add permissions in item
     public void setPermissions(Command command)
     {
         // initialise instance variables

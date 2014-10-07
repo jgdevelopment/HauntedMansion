@@ -12,11 +12,11 @@ public class User
     // instance variables - replace the example below with your own
     private static int INVENTORY_CAPACITY=100;
 
-    public int weight;
-    public boolean isSick;
-    public boolean inventoryIsFull;
-    public int timeLeft;
-    public static ArrayList<Items> inventory;
+    private int weight;
+    private boolean isSick;
+    private boolean inventoryIsFull;
+    private int timeLeft;
+    private static ArrayList<Items> inventory;
     private String inventoryString;
 
     /**
@@ -46,7 +46,6 @@ public class User
             this.weight -=item.weight;
             this.inventoryIsFull = true;
         }    
-        
     }
 
     public void removeItem(Items item){
@@ -70,6 +69,44 @@ public class User
             inventoryString+=" "+item.description;
         }
         return inventoryString;
+    }
+
+    public Items checkItemPermission(String itemWord){
+        for (Items item: inventory){
+            if (itemWord.equals(item.description)){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Items> getInventory()
+    {
+        return this.inventory;
+    }
+
+    public boolean isInventoryFull(){
+        return this.inventoryIsFull;
+    }
+
+    public int getWeight(){
+        return this.weight;
+    }
+
+    public void addWeight(int weightAdded){
+        this.weight+=weightAdded;
+    }
+
+    public int getTimeLeft(){
+        return timeLeft;
+    }
+
+    public void lostTime(){
+        timeLeft --;
+    }
+
+    public boolean getSickCondition(){
+        return isSick;
     }
 
     public void makeWell()

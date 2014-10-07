@@ -80,16 +80,11 @@ public class Parser
 
     public Items getCommandItem(){
         if (Game.currentRoom!=null&&word2!=null){
-            for (Items item: Game.currentRoom.items){
-                if (word2.equals(item.description)){
-                    return item;
-                }
+            Items item = Game.user.checkItemPermission(word2); // returns item if item is in inventory
+            if (item==null){
+                item = Game.currentRoom.isRoomItem(word2); // if item is not in inventory returns item if in room 
             }
-            for (Items item: User.inventory){
-                if (word2.equals(item.description)){
-                    return item;
-                }
-            }
+            return item;
         }
         return null;
     }

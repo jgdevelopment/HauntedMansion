@@ -12,19 +12,19 @@ import java.util.ArrayList;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael Kolling and David J. Barnes
- * @version 2006.03.30
+ * @author class by Jason Ginsberg
+ * @version 2014.10.07
  */
 
 public class Room 
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    public ArrayList<Items> items;
-    public boolean isLocked;
+    private ArrayList<Items> items;
+    private boolean isLocked;
     private String lockedDirection;
-    public ArrayList<Character> characters;
-    public String characterString;
+    private ArrayList<Character> characters;
+    private String characterString;
 
     /**
      * Create a room described "description". Initially, it has
@@ -50,13 +50,13 @@ public class Room
     {
         exits.put(direction, neighbor);
     }
-    //item methods by JG
-    public void setItem(Items item) // possibly change to array list
+
+    public void setItem(Items item) 
     {
         this.items.add(item);
     }
 
-    public void removeItem(Items item) // possibly change to array list
+    public void removeItem(Items item) 
     {
         this.items.remove(item);
     }
@@ -64,6 +64,10 @@ public class Room
     public void setIsLocked(boolean value, String direction){
         this.isLocked = value;
         this.lockedDirection = direction;
+    }
+
+    public boolean isLocked(){
+        return this.isLocked;
     }
 
     public String getLockedDirection(){
@@ -84,13 +88,17 @@ public class Room
         return returnString;
     }
 
+    public ArrayList<Character> getCharacters(){
+        return this.characters;
+    }
+
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
      */
     public String getShortDescription()
     {
-        return description;
+        return this.description;
     }
 
     public String getCharacterDescription()
@@ -117,7 +125,7 @@ public class Room
     {
         this.characters.add(character);
     }    
-    
+
     public ArrayList<Character> getCharacter() 
     {
         return this.characters;
@@ -136,6 +144,15 @@ public class Room
             returnString += " " + exit;
         }
         return returnString;
+    }
+
+    public Items isRoomItem(String itemString){
+        for (Items item: items){
+            if (itemString.equals(item.description)){
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
