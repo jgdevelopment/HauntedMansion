@@ -23,13 +23,29 @@ import java.util.ArrayList;
 
 public class Game 
 {
+    //initializations by Jason Ginsberg
     private Parser parser;
     public static Room currentRoom;
     private User user;
     private ArrayList<Room> roomsVisited;
     private String direction;
+
+    private Character ogre, wizard;
+    private String characterDescription;
+
+    private Items map,
+    key,
+    food,
+    closet,
+    medicine,
+    hint;
+
+    private int anyCommand;
+    private boolean usedKey;
+    private static int CONDITION=20;
+
     //room initializations by Adam Shaw
-    Room masterBedroom,
+    private Room masterBedroom,
     study,
     livingRoom,
     entranceHall, 
@@ -42,23 +58,6 @@ public class Game
     nextRoom,
     drawingRoom;
 
-    Character ogre, wizard;
-
-    private int anyCommand;
-
-    private String characterDescription;
-
-    boolean usedKey;
-
-    Items map,
-    key,
-    food,
-    closet,
-    medicine,
-    hint;
-
-    private static int CONDITION=20;
-
     /**
      * Create the game and initialise its internal map.
      */
@@ -67,27 +66,25 @@ public class Game
         createRooms();
         parser = new Parser();
         user = new User();
+        roomsVisited = new ArrayList<Room>();
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Create all the rooms, their characters, items, and link their exits together.
      */
     private void createRooms()
     {
-        //Initalize items and settings by JG
-        roomsVisited = new ArrayList<Room>();
+        //create the charatcers by Jason
         ogre = new Character(
             "ogre",
             "What's up",
             "The sky");
-
         wizard = new Character(
             "wizard",
-            "What is the Answer to the Ultimate Question of Life, The Universe, and Everything",
+            "What is the Answer to the ultimate question of life, the universe, and everything",
             "42");
 
-        usedKey = false;
-
+        // create the items by Jason
         map = new Items("map");
         map.setWeight(25); // out of 100
         Command readMap = new Command("read", "map");
@@ -113,7 +110,7 @@ public class Game
         Command readHint = new Command("read", "clue");
         hint.setPermissions(readHint);
 
-        // create the rooms
+        // create the rooms by Adam
         masterBedroom = new Room("in the master bedroom");
         study = new Room("in the study");
         livingRoom = new Room("in the living room");
@@ -126,7 +123,7 @@ public class Game
         kitchen = new Room("in the kitchen");
         drawingRoom = new Room("in the drawing room");
 
-        // initialise room exits and items in room
+        // initialise room exits, items, and characters in rooms by Jason
         masterBedroom.setExit("east", study);
         masterBedroom.setItem(key);
 
@@ -144,6 +141,7 @@ public class Game
         entranceHall.setExit("west", livingRoom);
         entranceHall.setExit("north", outside);
         entranceHall.setIsLocked(true, "north");
+        usedKey = false; // set the entrance door to unlockable without key
 
         outside.setExit("south", entranceHall);
 
@@ -176,7 +174,7 @@ public class Game
     }
 
     /**
-     *  Main play routine.  Loops until end of play.
+     *  Main play routine. Loops until end of play.
      */
     public void play() 
     {            
@@ -184,7 +182,8 @@ public class Game
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over
         boolean finished = false;
-        while (! finished) {
+        while (! finished) 
+        {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
@@ -219,77 +218,101 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-        if(command.isUnknown()){
+        String commandWord = command.getCommandWord();
+        Items item = parser.getCommandItem(); //item being acted on by command
+        
+        if(command.isUnknown())
+        {
             System.out.println("I don't know what you mean...");
             return false;
         }
-        String commandWord = command.getCommandWord();
-        Items item = parser.getCommandItem();
-        if (commandWord.equals("go")) {
+        if (commandWord.equals("go")) 
+        {
             direction = command.getSecondWord();
             nextRoom = currentRoom.getExit(direction);
-            if (checkNextRoom(command,nextRoom)){
-                if(checkLockedDoor()){
+            if (checkNextRoom(command,nextRoom)) //checks if direction is valid
+            {
+                if(checkLockedDoor()) // if door is unlocked, then user can proceed to next room
+                {
                     goRoom(command);
                 }
             }
         }
-        else if  (commandWord.equals("talk")){
-            for (Character character: currentRoom.characters){
+        else if  (commandWord.equals("talk"))
+        {
+            for (Character character: currentRoom.characters)
+            {
                 talk(character);
             }
         }
 
-        else if (item==null){
-            if (commandWord.equals("help")) {
+        else if (item==null)
+        {
+            if (commandWord.equals("help")) 
+            {
                 printHelp();
             }
-            else if (commandWord.equals("quit")) {
+            else if (commandWord.equals("quit")) 
+            {
                 wantToQuit = quit(command);
             }
-            else{
+            else
+            {
                 System.out.println("That is not an object.");
                 return false;
             }
         }
-        else{
+        else
+        {
             anyCommand = 0;
-            for (Command iterateCommand :item.permissions){
+            for (Command iterateCommand :item.permissions)
+            {
                 if (commandWord.equals(iterateCommand.getCommandWord()))
                 {   
                     anyCommand++;
                 }
             }
-            if (anyCommand==0){
+            if (anyCommand==0)
+            {
                 System.out.println("You cannot use that command with this object");
                 return false;
             }
 
-            else if (commandWord.equals("add")) {
+            else if (commandWord.equals("add")) 
+            {
                 pickUp(item);
             }
-            else if (commandWord.equals("eat")) {
+            else if (commandWord.equals("eat")) 
+            {
                 eat();
             }
-            else if (commandWord.equals("read")) {
-                if (command.getSecondWord().equals("map")){ //error can always open map
+            else if (commandWord.equals("read")) 
+            {
+                if (command.getSecondWord().equals("map"))
+                { //error can always open map
                     printMap();
                 }
-                else if (command.getSecondWord().equals("clue")){
+                else if (command.getSecondWord().equals("clue"))
+                {
                     System.out.println("the ocean blue");
                 }
             }
-            else if (commandWord.equals("use")) {
+            else if (commandWord.equals("use")) 
+            {
                 use();
             }
-            else if (commandWord.equals("drop")) {
+            else if (commandWord.equals("drop")) 
+            {
                 drop(item);
             }
-            else if (commandWord.equals("drink")) {
-                if (user.isSick){
+            else if (commandWord.equals("drink")) 
+            {
+                if (user.isSick)
+                {
                     user.makeWell();
                 }
-                else{
+                else
+                {
                     System.out.println("Before drinking the medicine you realize that is probably not the best idea and close the lid.");
                     System.out.println("Maybe it will be useful later.");
                 }
@@ -320,8 +343,10 @@ public class Game
         System.out.println("                 |________________|________________|");
     }
 
-    private void pickUp(Items item){
-        if (this.user.inventoryIsFull){
+    private void pickUp(Items item)
+    {
+        if (this.user.inventoryIsFull)
+        {
             System.out.println("Cannot pick up item. Inventory is full");
         }
         else{
@@ -334,25 +359,30 @@ public class Game
     private void talk(Character character)
     {
         System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
-        System.out.println("The " + character.getDescription() + " replies: '"+character.getResponse());        
+        System.out.println("The " + character.getDescription() + " replies: '"+character.getResponse());
     }
 
-    private void use(){
-        if (currentRoom==entranceHall){
+    private void use()
+    {
+        if (currentRoom==entranceHall)
+        {
             usedKey = true;
             System.out.println("You insert the key. Now try to open the door.");
         }
-        else{
+        else
+        {
             System.out.println("Go to the entrance hall.");
         }
     }
 
-    private void drop(Items item){
+    private void drop(Items item)
+    {
         System.out.println(item.description+" removed from inventory");
         user.removeItem(item);
     }
 
-    private void eat(){
+    private void eat()
+    {
         System.out.println("You eat the food, but quickly feel sick. It seems that it was poisoned");
         user.makeSick();
         user.weight += food.getWeight();
@@ -376,19 +406,24 @@ public class Game
         parser.showCommands();
     }
 
-    private boolean checkLockedDoor(){
-        if (currentRoom.isLocked && direction.equals(currentRoom.getLockedDirection())){
-            if (currentRoom == dungeon){
+    private boolean checkLockedDoor()
+    {
+        if (currentRoom.isLocked && direction.equals(currentRoom.getLockedDirection()))
+        {
+            if (currentRoom == dungeon)
+            {
                 System.out.println("You try to open the door but find that it is locked!");
                 System.out.println("You notice a 4 digit PIN number pad next to the door.");
                 System.out.println("Enter Passcode: ");
                 int code= parser.getInt();
-                if (code == 1492){ //answer to riddle
+                if (code == 1492)
+                { //answer to riddle
                     System.out.println("You have unlocked the door. You proceed into the next room.");
                     currentRoom.setIsLocked(false, "east");
                     return true;
                 }
-                else{
+                else
+                {
                     System.out.println("Incorrect code.");
                     if (code==0){
                         System.out.print("passcode must be a 4-digit PIN");
@@ -397,13 +432,16 @@ public class Game
                     return false;
                 }
             }
-            else if (currentRoom == entranceHall){
-                if (usedKey){ //answer to riddle
+            else if (currentRoom == entranceHall)
+            {
+                if (usedKey)
+                { //answer to riddle
                     System.out.println("You have unlocked the door. You escape outside.");
                     currentRoom.setIsLocked(false, "north");
                     return true;
                 }
-                else{
+                else
+                {
                     System.out.println("Cannot open door. It seems to be locked.");
                     return false;
                 }
@@ -412,8 +450,10 @@ public class Game
         return true;
     }
 
-    private boolean checkNextRoom(Command command, Room nextRoom){
-        if (nextRoom == null) {
+    private boolean checkNextRoom(Command command, Room nextRoom)
+    {
+        if (nextRoom == null) 
+        {
             System.out.println("There is no door!");
             return false;
         }
@@ -426,7 +466,8 @@ public class Game
      */
     private void goRoom(Command command)
     {
-        if(!command.hasSecondWord()) {
+        if(!command.hasSecondWord()) 
+        {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
             return;
@@ -442,14 +483,16 @@ public class Game
         updateHealth();
     }
 
-    private void printStats(){
+    private void printStats()
+    {
         System.out.println("************************************************");
         System.out.println(currentRoom.getLongDescription());
         System.out.println("Current Inventory Items: "+user.getInventoryItems());
         System.out.println("Characters in room:"+currentRoom.characterString);
     }
 
-    private void updateHealth(){
+    private void updateHealth()
+    {
         if(Math.random()<(1/CONDITION)) //randomly get sick
         {
             user.makeSick();
@@ -468,10 +511,12 @@ public class Game
 
     private void endGame(String condition)
     {
-        if (condition.equals("win")){
+        if (condition.equals("win"))
+        {
             System.out.println("You win!");
         }
-        else{
+        else
+        {
             System.out.println("You lose!");
         }
     }
@@ -483,11 +528,13 @@ public class Game
      */
     private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
+        if(command.hasSecondWord()) 
+        {
             System.out.println("Quit what?");
             return false;
         }
-        else {
+        else 
+        {
             return true;  // signal that we want to quit
         }
     }

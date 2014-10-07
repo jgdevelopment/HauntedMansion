@@ -117,7 +117,7 @@ public class Room
     {
         this.characters.add(character);
     }    
-
+    
     public ArrayList<Character> getCharacter() 
     {
         return this.characters;
