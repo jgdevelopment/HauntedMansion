@@ -17,7 +17,8 @@ public class User
     public boolean inventoryIsFull;
     public int timeLeft;
     public static ArrayList<Items> inventory;
-
+    private String inventoryString;
+    
     /**
      * Constructor for objects of class User
      */
@@ -26,6 +27,7 @@ public class User
         this.weight = 0;
         this.inventoryIsFull = false;
         inventory = new ArrayList<Items>();
+        inventoryString = "empty";
     }
 
     public void addItem(Items item){
@@ -53,7 +55,7 @@ public class User
 
     public String getInventoryItems()
     {
-        String inventoryString = "empty";
+        inventoryString ="";
         for (Items item: inventory){
             inventoryString+=" "+item.description;
         }

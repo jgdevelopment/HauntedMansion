@@ -44,6 +44,8 @@ public class Game
 
     Character ogre, wizard;
 
+    private int anyCommand;
+
     private String characterDescription;
 
     boolean usedKey;
@@ -251,7 +253,14 @@ public class Game
             }
         }
         else{
-            if (item.permissions.contains(command)){
+            anyCommand = 0;
+            for (Command iterateCommand :item.permissions){
+                if (commandWord.equals(iterateCommand.getCommandWord()))
+                {   
+                    anyCommand++;
+                }
+            }
+            if (anyCommand==0){
                 System.out.println("You cannot use that command with this object");
                 return false;
             }
