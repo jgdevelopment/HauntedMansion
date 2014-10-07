@@ -23,7 +23,6 @@ public class Parser
     private Scanner reader;         // source of command input
     private String word1;
     private String word2;
-    private Room currentRoom;
 
     /**
      * Create a parser to read from the terminal window.
@@ -44,7 +43,6 @@ public class Parser
         word2 = null;
 
         System.out.print("> ");     // print prompt
-
         inputLine = reader.nextLine();
 
         // Find up to two words on the line.
@@ -57,7 +55,6 @@ public class Parser
                 // note: we just ignore the rest of the input line.
             }
         }
-
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
@@ -70,19 +67,28 @@ public class Parser
 
     public int getInt(){
         int inputLine;   // will hold the full input line
-        inputLine = reader.nextInt();
-        return inputLine;
+        if (reader.hasNextInt()){
+            inputLine = reader.nextInt();
+            reader.nextLine();
+            return inputLine;
+        }
+        else{
+            reader.nextLine();
+            return inputLine = 0;//arbitrary number to print error for entering a string
+        }
     }
 
     public Items getCommandItem(){
-        if (currentRoom!=null){
-            if (word2!=null&&!word1.equals("go")){
-                for (Items item: currentRoom.items){
-                    if (word2.equals(item.description)){
-                        return item;
-                    }
+        if (Game.currentRoom!=null&&word2!=null){
+            for (Items item: Game.currentRoom.items){
+                if (word2.equals(item.description)){
+                    return item;
                 }
-                return null;
+            }
+            for (Items item: User.inventory){
+                if (word2.equals(item.description)){
+                    return item;
+                }
             }
         }
         return null;
@@ -94,6 +100,5 @@ public class Parser
     public void showCommands()
     {
         commands.showAll();
-
     }
 }
