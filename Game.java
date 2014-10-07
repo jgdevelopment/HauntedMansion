@@ -197,7 +197,7 @@ public class Game
         //if room does not contain item state that you cannot access it unless added to inventory
         //if item does not have permission for first word command state not allowed
         String commandWord = command.getCommandWord();
-        //         Items item = parser.getCommandItem();
+        //         Items item = parser.getCommandItem(); working on getting this work, currentRoom returns null
         //         if (item!=null){
         //             System.out.println(item);
         //             for (Command permission: item.permissions){
