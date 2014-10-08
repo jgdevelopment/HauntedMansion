@@ -23,29 +23,19 @@ public class Character
     private String description;
     private String question;
     private String response;
-    //     public int hitPoints;
-    //     private boolean aliveQuestion=true;
     private ArrayList<Command> permissions;
 
-    public Character(String description, String question, String response) //, int hitPoints
+    public Character(String description, String question, String response)
     {
         permissions = new ArrayList<Command>();
-
         this.description = description;
         this.question = question;
         this.response = response;
-
-        //unused fighting implementation
-        //this.hitPoints = hitPoints;
-        //Command fight = new Command("fight", this.description);
-        //this.setPermissions(fight);
-
         Command talk = new Command("talk", this.description);
-
-        this.setPermissions(talk);
+        this.addPermissions(talk);
     }
 
-    public void setPermissions(Command command)
+    public void addPermissions(Command command)
     {
         // initialise instance variables
         this.permissions.add(command);
@@ -69,20 +59,4 @@ public class Character
     {
         return this.response;
     }
-    
-    //unused fighting method
-    //     public int getHitPoints()
-    //     {
-    //         return this.hitPoints;
-    //     }
-    // 
-    //     public void kill()
-    //     {
-    //         aliveQuestion=false;
-    //     }
-    // 
-    //     public boolean isAlive()
-    //     {
-    //         return aliveQuestion;
-    //     }
 }

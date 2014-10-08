@@ -27,3 +27,13 @@ The goal is to extend the game:
 Read chapter 7 of the book to get a detailed description of the project.
 
 is it better to make return function or get class attribute
+
+
+Character character = currentRoom.getCharacterFromString(object);
+    if (character!=null){
+        talk(character);
+    }
+    else{
+        printCharacterWarning();
+        return false;
+    }

@@ -20,11 +20,10 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    private ArrayList<Items> items;
+    private ArrayList<Item> items;
     private boolean isLocked;
     private String lockedDirection;
-    private Character character;
-    private String characterString;
+    private ArrayList<Character> characters;
 
     /**
      * Create a room described "description". Initially, it has
@@ -35,9 +34,9 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        this.characterString = " no characters";
         exits = new HashMap<String, Room>();
-        items = new ArrayList<Items>();
+        items = new ArrayList<Item>();
+        this.characters = new ArrayList<Character>();
     }
 
     /**
@@ -50,12 +49,23 @@ public class Room
         exits.put(direction, neighbor);
     }
 
-    public void setItem(Items item) 
+    /**
+     * Return the room that is reached if we go from this room in direction
+     * "direction". If there is no room in that direction, return null.
+     * @param direction The exit's direction.
+     * @return The room in the given direction.
+     */
+    public Room getExit(String direction) 
+    {
+        return exits.get(direction);
+    }
+
+    public void addItem(Item item) 
     {
         this.items.add(item);
     }
 
-    public void removeItem(Items item) 
+    public void removeItem(Item item) 
     {
         this.items.remove(item);
     }
@@ -73,25 +83,27 @@ public class Room
         return this.lockedDirection;
     }
 
-    public String getItemsString() 
+    public ArrayList<Item> getItems() 
     {
-        String returnString ="\n";
-        returnString += "You see in the room:\n";
-        for (Items item : this.items){
-            returnString += "\n"+item.getDescription();
-        }
-        if (this.items.isEmpty()){
-            returnString = "";
-        }
-        returnString +="\n";
-        return returnString;
+        return this.items;     
     }
 
-    public Character getCharacterFromString(String object){
-        if (getCharacterDescription().equals(object)){
-            return character;
+    public void printItemDescription() 
+    {
+        if (this.items.isEmpty())
+        {
+            System.out.println();
+            System.out.println("There are no items here.");
         }
-        return null;
+        else
+        {
+            String returnString ="\n";
+            returnString += "You see in the room:\n";
+            for (Item item : this.items){
+                returnString += "\n"+item.getDescription()+"\n";
+            }
+            System.out.println(returnString);
+        }
     }
 
     /**
@@ -103,12 +115,16 @@ public class Room
         return this.description;
     }
 
-    public String getCharacterDescription()
+    public void printCharacterDescription()
     {
-        if (character!=null){
-            this.characterString= character.getDescription();
+        System.out.println("Characters in room: ");
+        for (Character character : this.characters){
+            if (character!=null){
+                System.out.println(character.getDescription());
+            }
         }
-        return this.characterString;
+        System.out.println("No characters");
+        System.out.println();
     }
 
     /**
@@ -119,17 +135,17 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "\nYou are " + description + ".\n" + getExitString()+ ".\n" + getItemsString();
+        return "\nYou are " + description + ".\n" + getExitString();
     }
 
-    public void setCharacter(Character character) 
+    public void addCharacter(Character character) 
     {
-        this.character = character;
+        this.characters.add(character);
     }    
 
-    public Character getCharacter() 
+    public ArrayList<Character> getCharacters() 
     {
-        return this.character;
+        return this.characters;
     }    
 
     /**
@@ -145,26 +161,6 @@ public class Room
             returnString += " " + exit;
         }
         return returnString;
-    }
-
-    public Items isRoomItem(String itemString){
-        for (Items item: items){
-            if (itemString.equals(item.getDescription())){
-                return item;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Return the room that is reached if we go from this room in direction
-     * "direction". If there is no room in that direction, return null.
-     * @param direction The exit's direction.
-     * @return The room in the given direction.
-     */
-    public Room getExit(String direction) 
-    {
-        return exits.get(direction);
     }
 }
 

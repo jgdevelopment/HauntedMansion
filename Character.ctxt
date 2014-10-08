@@ -2,7 +2,7 @@
 comment0.params=description\ question\ response
 comment0.target=Character(java.lang.String,\ java.lang.String,\ java.lang.String)
 comment1.params=command
-comment1.target=void\ setPermissions(Command)
+comment1.target=void\ addPermissions(Command)
 comment2.params=
 comment2.target=java.util.ArrayList\ getPermission()
 comment3.params=

@@ -17,7 +17,7 @@ public class CommandWords
             "add", "eat",
             "read", "use", 
             "drink","drop",
-            "talk", "fight"
+            "talk"
         };
 
     /**

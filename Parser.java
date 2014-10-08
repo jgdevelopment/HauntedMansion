@@ -78,17 +78,6 @@ public class Parser
         }
     }
 
-    public Items getCommandItem(){
-        if (Game.currentRoom!=null&&word2!=null){
-            Items item = Game.user.checkItemPermission(word2); // returns item if item is in inventory
-            if (item==null){
-                item = Game.currentRoom.isRoomItem(word2); // if item is not in inventory returns item if in room 
-            }
-            return item;
-        }
-        return null;
-    }
-
     /**
      * Print out a list of valid command words.
      */
