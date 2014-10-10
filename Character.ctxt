@@ -1,14 +1,20 @@
 #BlueJ class context
 comment0.params=description\ question\ response
 comment0.target=Character(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment0.text=\n\ Create\ a\ Character\ described\ "description"\ with\ a\ "question"\ and\ "response.\ Initially,\n\ "description"\ is\ something\ like\ "ogre",\ "question"\ is\ something\ like\ "who\ are\ you",\ \n\ and\ "response"\ is\ something\ like\ "I\ am\ an\ ogre"\n\ @param\ description\ The\ room's\ description.\n
 comment1.params=command
 comment1.target=void\ addPermissions(Command)
+comment1.text=\n\ Add\ a\ command\ that\ can\ be\ used\ on\ the\ character\n\ @param\ Command\ command\ the\ command\ which\ is\ added\ to\ the\ character's\ allowed\ permissions,\ \n\ for\ now\ just\ talk\ (eventually\ maybe\ fight)\n
 comment2.params=
 comment2.target=java.util.ArrayList\ getPermission()
+comment2.text=\n\ returns\ the\ allowed\ commands\ for\ a\ character\n\ @return\ permissions\ \n
 comment3.params=
 comment3.target=java.lang.String\ getDescription()
+comment3.text=\n\ returns\ the\ description\ for\ a\ character\n\ @return\ description\ \n
 comment4.params=
 comment4.target=java.lang.String\ getQuestion()
+comment4.text=\n\ returns\ the\ question\ for\ a\ character\n\ @return\ question\ \n
 comment5.params=
 comment5.target=java.lang.String\ getResponse()
+comment5.text=\n\ returns\ the\ response\ for\ a\ character\n\ @return\ response\ \n
 numComments=6

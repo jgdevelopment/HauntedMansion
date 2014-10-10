@@ -12,18 +12,18 @@ import java.util.ArrayList;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author class by Jason Ginsberg
+ * @author Jason Ginsberg
  * @version 2014.10.07
  */
 
 public class Room 
 {
     private String description;
+    private String lockedDirection;
     private HashMap<String, Room> exits;        // stores exits of this room.
     private ArrayList<Item> items;
-    private boolean isLocked;
-    private String lockedDirection;
     private ArrayList<Character> characters;
+    private boolean isLocked;
 
     /**
      * Create a room described "description". Initially, it has
@@ -36,6 +36,8 @@ public class Room
         this.description = description;
         exits = new HashMap<String, Room>();
         items = new ArrayList<Item>();
+        this.lockedDirection = "not set";
+        this.isLocked = false;
         this.characters = new ArrayList<Character>();
     }
 
@@ -60,34 +62,58 @@ public class Room
         return exits.get(direction);
     }
 
+    /**
+     * adds an item to a room
+     * @param Item item the item to be added
+     */
     public void addItem(Item item) 
     {
         this.items.add(item);
     }
 
+    /**
+     * removes an item from a room
+     * @param Item item the item to be removed
+     */
     public void removeItem(Item item) 
     {
         this.items.remove(item);
     }
 
+    /**
+     * locks a room door
+     * @param boolean value the boolean that sets wheter the door is locked or not
+     * @param String direction the string that determines which door is locked
+     */
     public void setIsLocked(boolean value, String direction){
         this.isLocked = value;
         this.lockedDirection = direction;
     }
 
-    public boolean isLocked(){
-        return this.isLocked;
+    /**
+     * checks if room is locked at a direction
+     * @return true if the room is locked at that direction
+     * @param String direction the string that determines which door to check
+     */
+    public boolean isLocked(String direction){
+        if (this.lockedDirection.equals(direction)&&this.isLocked){
+            return true;
+        }
+        return false;
     }
 
-    public String getLockedDirection(){
-        return this.lockedDirection;
-    }
-
+    /**
+     * returns items in the room
+     * @return items in room
+     */
     public ArrayList<Item> getItems() 
     {
         return this.items;     
     }
 
+    /**
+     * prints the items in the room
+     */
     public void printItemDescription() 
     {
         if (this.items.isEmpty())
@@ -98,9 +124,9 @@ public class Room
         else
         {
             String returnString ="\n";
-            returnString += "You see in the room:\n";
+            returnString += "You see in the room:";
             for (Item item : this.items){
-                returnString += "\n"+item.getDescription()+"\n";
+                returnString += "\n"+item.getDescription();
             }
             System.out.println(returnString);
         }
@@ -115,16 +141,20 @@ public class Room
         return this.description;
     }
 
+    /**
+     * prints the characters in the room
+     */
     public void printCharacterDescription()
     {
         System.out.println("Characters in room: ");
+        String characterString = null;
         for (Character character : this.characters){
-            if (character!=null){
-                System.out.println(character.getDescription());
-            }
+            characterString += character.getDescription()+" "; 
+            System.out.println(character.getDescription());
         }
-        System.out.println("No characters");
-        System.out.println();
+        if (characterString==null){
+            System.out.println("No characters");
+        }
     }
 
     /**
@@ -138,11 +168,28 @@ public class Room
         return "\nYou are " + description + ".\n" + getExitString();
     }
 
+    /**
+     * adds character to a room
+     * @param Character character the character to be added to the room
+     */
     public void addCharacter(Character character) 
     {
         this.characters.add(character);
     }    
 
+    /**
+     * removes character from a room
+     * @param Character character the character to be removed from the room
+     */
+    public void removeCharacter(Character character) 
+    {
+        this.characters.remove(character);
+    }    
+
+    /**
+     * returns characters in the room
+     * @return characters in room
+     */
     public ArrayList<Character> getCharacters() 
     {
         return this.characters;

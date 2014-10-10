@@ -47,34 +47,44 @@ public class Parser
 
         // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
-        if(tokenizer.hasNext()) {
+        if(tokenizer.hasNext()) 
+        {
             word1 = tokenizer.next();      // get first word
 
-            if(tokenizer.hasNext()) {
+            if(tokenizer.hasNext()) 
+            {
                 word2 = tokenizer.next();
                 // note: we just ignore the rest of the input line.
             }
         }
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) {
+        if(commands.isCommand(word1)) 
+        {
             return new Command(word1, word2);
         }
-        else {
+        else 
+        {
             return new Command(null, word2); 
         }
     }
 
-    public int getInt(){
+    /**
+     * Get integer code (that is not a command) when user inputs passcode to unlock door  
+     */
+    public int getInt()
+    {
         int inputLine;   // will hold the full input line
-        if (reader.hasNextInt()){
+        if (reader.hasNextInt())
+        {
             inputLine = reader.nextInt();
             reader.nextLine();
             return inputLine;
         }
-        else{
+        else
+        {
             reader.nextLine();
-            return inputLine = 0;//arbitrary number to print error for entering a string
+            return inputLine = 0; //arbitrary number to print error for entering a string
         }
     }
 
