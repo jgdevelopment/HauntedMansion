@@ -72,7 +72,7 @@ public class Parser
     /**
      * Get integer code (that is not a command) when user inputs passcode to unlock door  
      */
-    public int getInt() // by Jason
+    public int getInt() 
     {
         int inputLine;   // will hold the full input line
         if (reader.hasNextInt())
