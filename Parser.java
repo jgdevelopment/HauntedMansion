@@ -14,7 +14,7 @@ import java.util.regex.*;
  * the known commands, and if the input is not one of the known commands, it
  * returns a command object that is marked as an unknown command.
  * 
- * @author  Michael Kolling and David J. Barnes
+ * @author  Michael Kolling and David J. Barnes and Jason Ginsberg
  * @version 2006.03.30
  */
 public class Parser 
@@ -72,7 +72,7 @@ public class Parser
     /**
      * Get integer code (that is not a command) when user inputs passcode to unlock door  
      */
-    public int getInt()
+    public int getInt() // by Jason
     {
         int inputLine;   // will hold the full input line
         if (reader.hasNextInt())

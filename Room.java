@@ -85,7 +85,8 @@ public class Room
      * @param boolean value the boolean that sets wheter the door is locked or not
      * @param String direction the string that determines which door is locked
      */
-    public void setIsLocked(boolean value, String direction){
+    public void setIsLocked(boolean value, String direction)
+    {
         this.isLocked = value;
         this.lockedDirection = direction;
     }
@@ -95,8 +96,10 @@ public class Room
      * @return true if the room is locked at that direction
      * @param String direction the string that determines which door to check
      */
-    public boolean isLocked(String direction){
-        if (this.lockedDirection.equals(direction)&&this.isLocked){
+    public boolean isLocked(String direction)
+    {
+        if (this.lockedDirection.equals(direction)&&this.isLocked)
+        {
             return true;
         }
         return false;

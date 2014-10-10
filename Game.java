@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class Game 
 {
-    //initializations
+    //initializations by JG and AS
     private Parser parser;
     private ArrayList<Item> inventory;
     private ArrayList<Room> roomsVisited;
@@ -47,7 +47,8 @@ public class Game
     wineCellar,
     dungeon,
     kitchen,
-    drawingRoom;
+    drawingRoom,
+    teleporter;
 
     /**
      * Create the game and initialise its internal map and configurations.
@@ -66,15 +67,17 @@ public class Game
      */
     private void createRooms()
     {
+        //character initializations by AS
         ogre = new Character(
             "ogre",
-            "What's up",
-            "The sky");
+            "What's an ogre's favorite song",
+            "Somewhere Ogre the Rainbow");
         wizard = new Character(
             "wizard",
             "What is the Answer to the ultimate question of life, the universe, and everything",
             "42");
 
+        //item initializations by JG
         Item map, key, food, medicine, hint;
         map = new Item(
             "map",
@@ -101,6 +104,7 @@ public class Game
             false,
             "read");
 
+        //room initializations by AS
         masterBedroom = new Room("in the master bedroom");
         study = new Room("in the study");
         livingRoom = new Room("in the living room");
@@ -112,6 +116,7 @@ public class Game
         dungeon = new Room("in the mansion's dungeon");
         kitchen = new Room("in the kitchen");
         drawingRoom = new Room("in the drawing room");
+        teleporter = new Room("in the teleporter");
 
         masterBedroom.setExit("east", study);
         masterBedroom.addItem(key);
@@ -171,7 +176,7 @@ public class Game
     /**
      * Print out the opening message for the player.
      */
-    private void printWelcome() 
+    private void printWelcome()             //by Jason
     {
         System.out.println("************************************************");
         System.out.println();
@@ -195,7 +200,7 @@ public class Game
      * @param Command command the command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) 
+    private boolean processCommand(Command command) //by Jason
     {
         if(command.isUnknown()) //first check command exists
         {
@@ -252,7 +257,7 @@ public class Game
      * @param String itemWord the string to be processed.
      * @return Item if the string represents an item in the inventory or room, otherwise return null
      */
-    private Item getItemFromString(String itemWord) 
+    private Item getItemFromString(String itemWord) //by Jason
     {
         for (Item item: inventory) // checks if item is in inventory then in room
         {
@@ -277,7 +282,7 @@ public class Game
      * @param Command command the command to be process
      * @return true if the item can use that command
      */
-    private boolean checkObjectCommand(Command command) 
+    private boolean checkObjectCommand(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         String commandWord = command.getCommandWord();
@@ -300,7 +305,7 @@ public class Game
      * @param String characterWord the string to be processed.
      * @return Character if the string represents a charachter in the room, otherwise return null
      */
-    private Character getCharacterFromString(String characterWord) 
+    private Character getCharacterFromString(String characterWord) //by Jason
     {
         for (Character character : currentRoom.getCharacters()) 
         {
@@ -316,12 +321,12 @@ public class Game
      * Given a command, process whether the user wants to read a map or clue and then print out the information for that object
      * @param Command command the command from which the object is determined.     
      */
-    private void printInfo(Command command)
+    private void printInfo(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         if (getItemFromString(itemWord)!=null  && checkObjectCommand(command)) // checks if item being read actually exists or is available to user
         { 
-            if (itemWord.equals("map"))
+            if (itemWord.equals("map")) //by Adam
             {
                 System.out.println("____________________________________________________________|exit|___");
                 System.out.println("|                |                |                |                |");
@@ -348,14 +353,14 @@ public class Game
         }
         else
         {
-            System.out.println("you can't read that!");
+            System.out.println("You can't read that!");
         }
     }
 
     /**
      * Here we print out the items in the inventory and their weight
      */
-    private void printInventory() 
+    private void printInventory() //by Jason
     {
         if (inventory.size()>0) 
         {
@@ -373,7 +378,7 @@ public class Game
     /**
      * Here we print out all the info when a user enters a new room
      */
-    private void printStatus () 
+    private void printStatus() //by Jason
     {
         roomsVisited.add(currentRoom);
         nextRoom.setExit("back",roomsVisited.get(roomsVisited.size()-1));
@@ -409,7 +414,7 @@ public class Game
      * Given a command, determine the character that is being talked to, if that character is in the room, and print out their dialogue.
      * @param Command command the commannd from which the character is determined.     
      */
-    private void talk(Command command)
+    private void talk(Command command) //by Jason
     {
         if (currentRoom.getCharacters().isEmpty()) 
         {
@@ -425,13 +430,13 @@ public class Game
             if (character != null) 
             {
                 System.out.println("You approach the " + character.getDescription() + " and ask him '" + character.getQuestion()+"?'");
-                System.out.println("The " + character.getDescription() + " replies: "+character.getResponse());
+                System.out.println("The " + character.getDescription() + " replies: '"+character.getResponse()+".'");
                 if (character == wizard) // wizard  curses the user after interaction
                 {
                     if (!isSick)
                     {
                         makeSick();
-                        System.out.println("The wizard curss you with a sickness");
+                        System.out.println("The wizard curses you with a sickness");
                     }
                     transportCharacter(currentRoom,wineCellar,wizard); // wizard teleports if you meet them
                 }
@@ -447,7 +452,7 @@ public class Game
      * Given a command, determine the item, and whether it exists and is food, then add the poisoned food to the inventory
      * @param Command command the commannd from which the food is determined.     
      */
-    private void eat(Command command)
+    private void eat(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         Item item = getItemFromString(itemWord);
@@ -468,7 +473,7 @@ public class Game
      * Given a command, determine the item, and whether it exists and is medicine, then cure the sickeness. If the user isn't sick don't let them drink the medicine.
      * @param Command command the commannd from which the medicine is determined.     
      */
-    private void drink(Command command)
+    private void drink(Command command) //by Jason
     {
         if (checkObjectCommand(command) == false)
         {
@@ -495,7 +500,7 @@ public class Game
      * so long as it doesn't exceed the capacity
      * @param Command command the commannd from which the item is determined.     
      */
-    private void add(Command command)
+    private void add(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         Item item = getItemFromString(itemWord);
@@ -505,32 +510,23 @@ public class Game
                 System.out.println("Cannot pick up item. Inventory is full");
             }
             else{
-                if (inventory!=null)
-                {
-                    for (Item inventoryItem: inventory) // make sure the item is not already in the inventory
+                if (itemNotInInventory(item)){
+                    inventory.add(item);
+                    currentRoom.removeItem(item);
+                    weight += item.getWeight();
+                    System.out.println();
+                    if (weight> INVENTORY_CAPACITY) // check that adding the weight does not exceed the carrying capacity 
                     {
-                        if (item.getDescription().equals(inventoryItem.getDescription()))
-                        {
-                            System.out.println("Item already added to inventory");
-                            return;
-                        }
+                        weight -=item.getWeight();
+                        System.out.println(item.getDescription()+" cannot be added to inventory, it weighs too much.");
+                    }  
+                    else
+                    {
+                        System.out.println(item.getDescription()+" added to inventory");
                     }
+                    System.out.println("Current Inventory Weight: "+getInventoryWeight());
+                    System.out.println();
                 }
-                inventory.add(item);
-                currentRoom.removeItem(item);
-                weight += item.getWeight();
-                System.out.println();
-                if (weight> INVENTORY_CAPACITY) // check that adding the weight does not exceed the carrying capacity 
-                {
-                    weight -=item.getWeight();
-                    System.out.println(item.getDescription()+" cannot be added to inventory, it weighs too much.");
-                }  
-                else
-                {
-                    System.out.println(item.getDescription()+" added to inventory");
-                }
-                System.out.println("Current Inventory Weight: "+getInventoryWeight());
-                System.out.println();
             }
         }
         else{
@@ -539,10 +535,32 @@ public class Game
     }
 
     /**
+     * Given an item, determine if it is in the inventory
+     * @param Item item the item to be checked for in the inventory  
+     * @return true if item is not in inventory and inventory exists
+     */
+    private boolean itemNotInInventory(Item item)
+    {
+        if (inventory!=null)
+        {
+            for (Item inventoryItem: inventory) // make sure the item is not already in the inventory
+            {
+                if (item.getDescription().equals(inventoryItem.getDescription()))
+                {
+                    System.out.println("Item already added to inventory");
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Given a command, determine the item, and whether it exists, then remove the item and its weight from the inventory
      * @param Command command the command from which the item is determined.     
      */
-    private void drop(Command command)
+    private void drop(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         Item item = getItemFromString(itemWord);
@@ -556,7 +574,7 @@ public class Game
      * Given a command, determine that item exists and is a key. If the user is in the entrance hall unlock the door, if not tell the user to go to the entrance hall
      * @param command the commannd from which the key item is determined.     
      */
-    private void use(Command command)
+    private void use(Command command) //by Jason
     {
         String itemWord = command.getSecondWord();
         if (getItemFromString(itemWord)!=null && checkObjectCommand(command))
@@ -577,7 +595,7 @@ public class Game
      * check that the inventory weight does not exceed capacity.    
      * @return true if inventory is full
      */
-    private boolean isInventoryFull()
+    private boolean isInventoryFull() //by Jason
     {
         if (getInventoryWeight()>=INVENTORY_CAPACITY)
         {
@@ -590,7 +608,7 @@ public class Game
      * get the weight of all the items in the inventory  
      * @return int weight that is the sum of all the item weights.
      */
-    private int getInventoryWeight()
+    private int getInventoryWeight() //by Jason
     {
         weight = 0;
         for (Item item : inventory) 
@@ -604,7 +622,7 @@ public class Game
      * Check that the door is not locked, and prompt user given room
      * @return true if door is locked 
      */
-    private boolean checkLockedDoor()
+    private boolean checkLockedDoor() //by Jason
     {
         if (currentRoom.isLocked(direction))
         {
@@ -632,7 +650,8 @@ public class Game
      * Prompt user to try and unlock door
      * @return true if user successfully unlocks door
      */
-    private boolean passcodePrompt(){
+    private boolean passcodePrompt() //by Jason
+    {
         System.out.println("You try to open the door but find that it is locked!");
         System.out.println("You notice a 4 digit PIN number pad next to the door.");
         System.out.println("Enter Passcode: ");
@@ -660,7 +679,7 @@ public class Game
      * Prompt user to try and unlock door
      * @return true if user successfully unlocks door
      */
-    private boolean openEntrance()
+    private boolean openEntrance() //by Jason
     {
         if (usedKey)
         { 
@@ -722,16 +741,8 @@ public class Game
     /** 
      * Randomly make user sick and update them on how much time they have left to live
      */
-    private void updateHealth()
+    private void updateHealth()//written by Adam Shaw
     {
-        if(Math.random()<(0.05)) //randomly get sick
-        {
-            if (!isSick)
-            {
-                makeSick();
-                System.out.println("You've been struck with a sudden sickness!");
-            }
-        }
         if(isSick) // update user about how much time they have left to survive
         {
             System.out.println("You have " + timeLeft + " turns left to find medicine before you die!");
@@ -742,12 +753,17 @@ public class Game
                 endGame("lose");
             }
         }
+        else if(Math.random()<(0.05)) //randomly get sick
+        {
+            makeSick();
+            System.out.println("You've been struck with a sudden sickness!");
+        }
     }
 
     /** 
      * Makes the user sick and gives them 3 moves to find the cure
      */
-    private void makeSick()
+    private void makeSick() //by Adam
     {
         isSick=true;
         timeLeft=3;
@@ -756,7 +772,7 @@ public class Game
     /** 
      * Makes the user well and gives them time to survive
      */
-    private void makeWell()
+    private void makeWell() //by Adam
     {
         isSick=false;
         timeLeft=0;
@@ -768,7 +784,8 @@ public class Game
      * @param Room newRoom, the character's new room 
      * @param Character character, the character being transported
      */
-    private void transportCharacter(Room currentRoom, Room newRoom, Character character) {
+    private void transportCharacter(Room currentRoom, Room newRoom, Character character) //by Jason
+    {
         currentRoom.removeCharacter(character);
         newRoom.addCharacter(character);
     }
@@ -777,7 +794,7 @@ public class Game
      * Ends the game based on user actions
      * @param String condition, which determines wether user wins or loses
      */
-    private void endGame(String condition)
+    private void endGame(String condition) //by Adam
     {
         if (condition.equals("win"))
         {
