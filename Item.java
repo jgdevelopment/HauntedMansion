@@ -39,7 +39,8 @@ public class Item
      * returns the description for an item
      * @return description 
      */
-    public String getDescription(){
+    public String getDescription()
+    {
         return this.description;
     }
 
@@ -47,7 +48,8 @@ public class Item
      * returns if an item can be added to inventory 
      * @return movable 
      */
-    public boolean getMovable(){
+    public boolean getMovable()
+    {
         return this.movable;
     }
 
@@ -64,7 +66,8 @@ public class Item
      * returns the allowed commands for an item
      * @return permissions 
      */
-    public ArrayList<Command> getPermission(){
+    public ArrayList<Command> getPermission()
+    {
         return this.permissions;
     }
 
@@ -72,7 +75,8 @@ public class Item
      * returns an item's weight
      * @return weight 
      */
-    public int getWeight(){
+    public int getWeight()
+    {
         return this.weight;
     }
 }
